@@ -1,0 +1,735 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f16c1a"><title>MIS FINANZAS 1.0</title><link rel="manifest" href="manifest.webmanifest"><style>
+:root{font-family:Arial,"Segoe UI",system-ui,sans-serif;color:#161616;background:#fafafa}
+*{box-sizing:border-box}
+body{margin:0;background:#fafafa}
+.wrap{width:min(100%,1010px);margin:0 auto;padding:18px 15px 65px;background:#fafafa;min-height:100vh}
+header{display:flex;align-items:center;justify-content:space-between;margin:0 0 17px}
+h1{font-size:23px;font-weight:650;letter-spacing:-.65px;margin:0 0 5px}
+header small{font-size:16px;color:#707070}
+h2{font-size:21px;font-weight:650;letter-spacing:-.35px;margin:0}
+.ui-icon{width:23px;height:23px;vertical-align:middle;flex:none}
+.icon-button{width:42px;height:42px;border:0;background:transparent;padding:7px;display:grid;place-items:center}
+.icon-button .ui-icon{width:27px;height:27px}
+.hero{border-radius:21px;background:linear-gradient(115deg,#E86A12 0%,#F28A24 100%);color:white;padding:23px 21px 27px;margin:0 0 15px;min-height:162px}
+.hero>div:first-child{color:#fff4e8;font-size:17px}
+.hero strong{display:block;font-size:33px;letter-spacing:-.7px;margin:16px 0 19px;font-weight:750}
+.hero-totals{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+.hero-totals b{font-weight:500}
+.hero-income{color:#fff4e8}.hero-expense{color:#fff4e8}
+.quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:15px 0 20px}
+button{font:inherit;cursor:pointer}
+.quick{height:95px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:#fafafa;border:1px solid #dedede;border-radius:21px;color:#161616;font-size:16px;font-weight:650;transition:background .15s,border-color .15s}
+.quick .ui-icon{width:24px;height:24px;color:#666}
+.quick:hover,.quick:focus-visible{background:#f0f4f6;border-color:#b5c8d2}
+.home-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}
+.text-button{border:0;background:none;color:#6c6c6c;padding:7px;font-size:14px}
+.home-movements{margin:0 0 22px}
+.home-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.home-row>div:first-child{min-width:0}
+.home-row b{display:block;font-size:16px;font-weight:650}
+.home-row small{display:block;margin-top:5px;font-size:15px;color:#777}
+.home-row .home-amount{font-weight:650;white-space:nowrap;font-size:16px}
+.green{color:#087d45!important}.red{color:#222!important}
+.extra-actions{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:16px}
+.extra-actions button{display:flex;align-items:center;justify-content:flex-start;gap:10px;background:#fff;border:1px solid #e1e1e1;border-radius:15px;padding:15px;color:#333;font-weight:600}
+.extra-actions button span{margin-left:auto;font-size:24px;color:#888}
+.section-nav{display:flex;align-items:center;gap:10px;margin:6px 0 18px;padding:8px 0;border-bottom:1px solid #e5e5e5}
+.section-nav button{border:0;background:transparent;padding:9px;display:flex;align-items:center;gap:6px;color:#365a6a;font-weight:650}
+.section-nav #sectionTitle{font-weight:700;flex:1;text-align:center}
+.card{background:#fff;border:1px solid #e4e4e4;border-radius:17px;padding:21px;margin:0;box-shadow:none}
+.card h2{margin-bottom:14px}
+#movimientos>.card+ .card,#naranja>.card+.card,#deudas>.card+.card,#suscripciones>.card+.card{margin-top:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+label{display:block;font-size:13px;color:#4e4e4e;font-weight:650;margin:13px 0 7px}
+input,select{width:100%;font:inherit;background:#fff;color:#222;border:1px solid #d6d6d6;border-radius:11px;padding:12px}
+button.primary,.primary{background:#204d60!important;border:1px solid #204d60!important;color:white!important}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}
+.actions button,.card button:not(.danger),.item button{border-radius:10px;padding:10px 14px;font-weight:650}
+.danger{background:#fff;border:1px solid #e0bfc0;color:#a54349}
+.item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid #e9e9e9}
+.item b{display:block;font-size:16px}.item small{display:block;color:#777;margin:5px 0}
+.amount{font-weight:700;margin-top:6px}
+.muted,small{color:#737373}
+.notice{padding:14px;border:1px solid #e5dfd3;border-radius:11px;background:#fffbf4;margin-bottom:13px;color:#665a4b}
+.hidden{display:none!important}
+#suscripciones .item{border:1px solid #e3e3e3;border-radius:14px;padding:14px;margin:10px 0;background:#fff}
+.service-icon{display:inline-grid;place-items:center;width:33px;height:33px;border:1px solid #e1e1e1;border-radius:9px;margin-right:8px;color:#5b5b5b;font-size:16px}
+#subscriptionPending{color:#204d60}
+@media(max-width:560px){.wrap{padding:16px 14px 55px}.hero{padding:23px 20px}.hero strong{font-size:31px}.quick{height:95px}.grid,.extra-actions{grid-template-columns:1fr}.item{flex-wrap:wrap}.home-row{align-items:flex-start}.home-row .home-amount{font-size:14px}}
+
+.nx-month{display:flex;align-items:end;gap:10px;margin:16px 0}.nx-month label{margin:0 0 10px;font-weight:700}.nx-month input{max-width:205px}.nx-month button{padding:12px 14px;border:1px solid #d9e0e4;border-radius:11px;background:#fff}
+.nx-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}.nx-summary .card{padding:16px;min-width:0}.nx-summary small{display:block;font-size:12px}.nx-summary strong{display:block;font-size:21px;margin-top:10px;color:#204d60;overflow-wrap:anywhere}
+.nx-card{margin-top:14px!important}.nx-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.nx-entry{display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #e8e8e8;padding:15px 0}.nx-entry-info{min-width:0}.nx-entry-info b{font-size:15px}.nx-entry-info small{display:block;margin-top:6px;font-size:12px;color:#666}.nx-entry-right{display:flex;align-items:flex-end;flex-direction:column;gap:9px;white-space:nowrap}.nx-entry-right strong{font-size:16px}.nx-pay{padding:8px 11px;border:1px solid #b9cbd5;border-radius:9px;background:#edf3f6;color:#204d60;font-size:12px}.nx-pay.is-paid{background:#edf6f1;border-color:#c7e2d3;color:#24724a}.nx-actions{display:flex;justify-content:flex-end;margin-top:14px}
+@media(max-width:680px){.nx-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.nx-entry{align-items:flex-start}.nx-entry-right{white-space:normal;text-align:right}.nx-month{flex-wrap:wrap}}
+</style><style id="nxPdfStyles">
+#nxPdfFile{max-width:100%}#nxPdfStatus{margin:10px 0;font-size:14px}
+.nx-pdf-scroll{max-height:440px;overflow:auto;border:1px solid #e5e5e5;border-radius:12px;margin:12px 0}
+.nx-pdf-table{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+.nx-pdf-table th,.nx-pdf-table td{padding:10px 8px;border-bottom:1px solid #ededed;text-align:left;vertical-align:middle}
+.nx-pdf-table th{position:sticky;top:0;background:#f5f7f8;z-index:1}
+.nx-pdf-table td input[type="checkbox"]{width:18px;height:18px}
+.nx-pdf-table td input[type="number"]{width:120px;padding:8px}
+.nx-pdf-table td select{width:150px;padding:8px}
+.nx-pdf-table small{display:block;color:#777;margin-top:4px}
+</style>
+<style id="nxEasyVisual">
+#naranja{max-width:100%}
+#naranja .nx-intro{font-size:16px;line-height:1.5;color:#646464;margin:2px 0 18px}
+#naranja .nx-month{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:12px 0 16px}
+#naranja .nx-month label{font-size:15px;font-weight:700;margin:0 0 8px}
+#naranja .nx-month input{min-width:175px}
+#naranja .nx-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+#naranja .nx-summary .card{padding:20px;min-height:122px;border:1px solid #e6e6e6;position:relative}
+#naranja .nx-summary .card small{display:block;font-size:14px;color:#616161;margin-bottom:12px;line-height:1.35}
+#naranja .nx-summary .card strong{display:block;font-size:clamp(22px,3vw,32px);font-weight:750;letter-spacing:-.6px;color:#171717;overflow-wrap:anywhere}
+#naranja .nx-summary .nx-total-card{background:#f4f4f4}
+#naranja .nx-summary .nx-person-card{background:#fff}
+#naranja .nx-summary .nx-pending-card{background:#fff9f3;border-color:#f1d8bd}
+#naranja .nx-summary .nx-pending-card strong{color:#a6531a}
+.nx-person-icon{float:right;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#f3f3f3;color:#333;font-size:14px;font-weight:700}
+.nx-guide{display:flex;align-items:flex-start;gap:13px;padding:16px 18px;border:1px solid #e6e6e6;border-radius:17px;background:#fff;margin:15px 0 23px}
+.nx-guide-icon{width:30px;height:30px;display:grid;place-items:center;flex:none;border-radius:50%;background:#e8f5ee;color:#25734a;font-weight:800}
+.nx-guide strong{font-size:16px}.nx-guide p{font-size:14px;line-height:1.55;color:#626262;margin:5px 0 0}.nx-guide p b{color:#2c2c2c}
+.nx-section-title{margin:27px 0 13px}.nx-section-title h2{font-size:21px;margin:0 0 5px}.nx-section-title p{color:#6a6a6a;margin:0;font-size:14px}
+#naranja .nx-card{margin:12px 0!important;padding:19px;border-radius:17px}
+#naranja .nx-card h2{font-size:18px}
+#naranja .nx-future-row{padding:13px 0;border-bottom:1px solid #ededed;display:flex;justify-content:space-between;gap:12px;align-items:center}
+#naranja .nx-future-row strong{font-size:17px;white-space:nowrap}
+#naranja .nx-future-entry{padding:14px 0;border-bottom:1px solid #ededed}
+#naranja .nx-future-entry b{font-size:15px}
+#naranja .nx-future-entry small{display:block;line-height:1.5;font-size:13px;margin-top:5px}
+#naranja .nx-entry{gap:14px;align-items:center}
+#naranja .nx-entry-info b{font-size:16px}
+#naranja .nx-entry-info small{font-size:13px;line-height:1.45}
+#naranja .nx-entry-right strong{font-size:18px}
+#naranja .nx-pay{font-size:13px;padding:10px 13px;border-radius:11px}
+#naranja .nx-fold{margin:12px 0;border:1px solid #e1e1e1;background:white;border-radius:17px;overflow:hidden}
+#naranja .nx-fold summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:13px;padding:19px;font-size:16px;font-weight:650;min-height:75px}
+#naranja .nx-fold summary::-webkit-details-marker{display:none}
+#naranja .nx-fold summary>span:nth-child(2){flex:1}
+#naranja .nx-fold summary small{display:block;color:#737373;font-size:13px;font-weight:400;margin-top:5px;line-height:1.4}
+#naranja .nx-fold-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#f4f4f4;font-size:25px;color:#444;flex:none}
+#naranja .nx-fold-chevron{margin-left:auto;font-size:25px;color:#888;transition:transform .15s}
+#naranja .nx-fold[open] .nx-fold-chevron{transform:rotate(90deg)}
+#naranja .nx-fold-content{padding:0 18px 20px}
+#naranja .nx-fold-content>.nx-card{border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+#naranja .nx-fold-content>.nx-card>h2{display:none}
+#naranja .nx-fold-content label{font-size:14px}
+#naranja #nxReconcile{margin:12px 0}
+@media(max-width:550px){
+#naranja .nx-summary{gap:9px}
+#naranja .nx-summary .card{padding:14px;min-height:116px}
+#naranja .nx-summary .card small{font-size:12px}
+#naranja .nx-summary .card strong{font-size:clamp(19px,5vw,25px)}
+#naranja .nx-entry{align-items:flex-start;flex-wrap:wrap}
+#naranja .nx-entry-right{width:100%;flex-direction:row;justify-content:space-between;align-items:center}
+#naranja .nx-fold summary{padding:14px}
+#naranja .nx-fold-content{padding:0 12px 16px}
+}
+</style>
+<style id="nx-readable-table">
+#naranja .nx-subheading{font-size:17px;margin:22px 0 12px}
+#naranja .nx-month-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:10px 0 19px}
+#naranja .nx-month-card{background:#f7f8f9;border:1px solid #e5e7e9;border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:8px}
+#naranja .nx-month-card>div:first-child{display:flex;flex-direction:column;gap:3px}
+#naranja .nx-month-card b{font-size:15px}
+#naranja .nx-month-card small{font-size:12px;color:#6b6b6b}
+#naranja .nx-month-card>strong{font-size:21px;color:#202020}
+#naranja .nx-month-split{border-top:1px solid #e4e4e4;padding-top:9px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:#555}
+#naranja .nx-detail-fold{border:1px solid #e2e2e2;border-radius:13px;background:#fff;overflow:hidden;margin-top:15px}
+#naranja .nx-detail-fold>summary{cursor:pointer;font-weight:700;padding:16px 18px;color:#234c60}
+#naranja .nx-table-scroll{overflow-x:auto;max-width:100%;padding:0 8px 12px}
+#naranja .nx-clean-table{width:100%;border-collapse:collapse;min-width:720px;font-size:14px}
+#naranja .nx-clean-table th{text-align:left;background:#f5f6f7;color:#555;font-size:12px;padding:13px 11px;white-space:nowrap}
+#naranja .nx-clean-table td{padding:14px 11px;border-bottom:1px solid #ededed;vertical-align:top;white-space:nowrap}
+#naranja .nx-clean-table td:first-child{white-space:normal;min-width:175px}
+#naranja .nx-clean-table td b{font-weight:700}
+#naranja .nx-clean-table td small{display:block;color:#777;margin-top:5px;font-size:12px}
+#naranja .nx-future-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:11px 0;border-bottom:1px solid #eee}
+#naranja .nx-future-row strong{font-size:16px}
+@media(max-width:700px){#naranja .nx-month-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){#naranja .nx-month-grid{grid-template-columns:1fr}#naranja .nx-month-card{gap:5px}}
+</style><style id="nxUserRefinement">
+#naranja #nxSavedStatements{margin:16px 0!important}
+#naranja .nx-saved-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-top:1px solid #ececec}
+#naranja .nx-saved-row b{display:block;font-size:16px}
+#naranja .nx-saved-row small{display:block;margin-top:5px;color:#777;font-size:13px}
+#naranja .nx-saved-row button{padding:10px 12px;border-radius:10px;white-space:nowrap}
+#naranja #nxPdfFold,#naranja #nxManualFold{border:1px solid #dcdcdc}
+#naranja #nxPdfFold summary,#naranja #nxManualFold summary{background:#fdfdfd}
+#naranja .nx-section-title{margin:20px 0 10px}
+@media(max-width:550px){#naranja .nx-saved-row{align-items:flex-start;flex-direction:column}#naranja .nx-saved-row button{width:100%}}
+</style><style id="nxMinimalRefresh">
+/* Diseño minimalista: solo apariencia, sin modificar cálculos ni eventos */
+#naranja{color:#252525}#naranja h2{font-size:20px;font-weight:680;letter-spacing:-.45px}
+#naranja p.muted,#naranja .muted{color:#777;font-size:14px;line-height:1.5}
+#naranja .nx-fold{border:1px solid #e5e5e5!important;background:#fff;border-radius:16px!important;box-shadow:none!important;margin:10px 0!important}
+#naranja .nx-fold summary{background:#fff!important;padding:17px 19px!important;min-height:72px;gap:13px}
+#naranja .nx-fold summary b{font-size:16px;font-weight:680;letter-spacing:-.2px;color:#222}
+#naranja .nx-fold summary small{font-size:13px;line-height:1.4;color:#858585;margin-top:4px}
+#naranja .nx-fold-icon{background:#f6f6f6!important;border-radius:12px!important;width:39px;height:39px;color:#565656!important;font-size:21px!important}
+#naranja .nx-fold-chevron{color:#929292;font-size:22px}
+#naranja .nx-fold[open] summary{border-bottom:1px solid #f1f1f1}
+#naranja .nx-fold-content{padding:19px 20px 22px!important}
+#naranja .nx-fold-content .nx-card{padding:0!important;border:0!important;box-shadow:none!important;background:transparent!important}
+#naranja .nx-fold-content .nx-card>p.muted{margin:0 0 15px;max-width:720px}
+#naranja #nxPdfFile{padding:13px;background:#fafafa;border:1px dashed #d2d2d2;border-radius:12px;font-size:14px;cursor:pointer}
+#naranja #nxPdfFile::file-selector-button{background:#fff;border:1px solid #d5d5d5;padding:9px 12px;border-radius:9px;color:#222;margin-right:12px;font-weight:600;cursor:pointer}
+#naranja #nxPdfStatus{padding:10px 0;font-size:13px;color:#666}
+#naranja #nxPdfPreview{border-top:1px solid #ededed;margin-top:12px;padding-top:17px}
+#naranja #nxPdfPreview .nx-title{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#naranja #nxPdfPreview .nx-title h2{font-size:17px}
+#naranja #nxPdfPreview .nx-title small{font-size:12px;color:#777}
+#naranja label{font-size:13px;font-weight:600;color:#555;margin-bottom:6px}
+#naranja input:not([type=checkbox]),#naranja select{font-size:14px;min-height:43px;border:1px solid #dedede;border-radius:10px;background:#fff;color:#222}
+#naranja input:focus,#naranja select:focus{outline:2px solid #f4b781;outline-offset:1px}
+#naranja .nx-pdf-scroll{border:1px solid #e9e9e9;border-radius:12px;max-height:410px;overflow:auto}
+#naranja .nx-pdf-table{border-collapse:collapse;font-size:13px}
+#naranja .nx-pdf-table th{background:#f8f8f8;color:#666;font-weight:650;padding:13px 11px;border-bottom:1px solid #e8e8e8}
+#naranja .nx-pdf-table td{padding:11px;border-bottom:1px solid #f0f0f0;line-height:1.4}
+#naranja .nx-pdf-table tbody tr:hover{background:#fffaf5}
+#naranja .nx-pdf-table td b{font-size:13px;font-weight:650}
+#naranja .nx-pdf-table td small{font-size:12px;color:#858585}
+#naranja .nx-pdf-table input[type=number]{min-height:37px}
+#naranja .nx-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+#naranja button.primary,#naranja #nxPdfImport{background:#d96c19!important;border:1px solid #d96c19!important;color:#fff!important;border-radius:10px;font-size:14px;font-weight:650;padding:12px 17px}
+#naranja #nxPdfCancel{background:#f6f6f6;border:1px solid #e5e5e5;border-radius:10px;color:#555;padding:12px 17px}
+#naranja .nx-section-title{margin:25px 0 13px}
+#naranja .nx-guide{background:#fafafa;border:1px solid #ececec}
+@media(max-width:620px){#naranja .nx-fold-content{padding:15px!important}#naranja .nx-fold summary{padding:14px!important}#naranja .nx-pdf-scroll{margin-left:-4px;margin-right:-4px}}
+</style><style id="nxWarmColor">
+#naranja{--nx-orange:#e77a28;--nx-soft:#fff4e9;--nx-ink:#283746}
+#naranja .nx-section-title h2{color:#273744}
+#naranja .nx-intro{color:#667580}
+#naranja .nx-fold{border:1px solid #e7dcd3;box-shadow:0 4px 16px #a3663610;background:#fff}
+#naranja #nxPdfFold>summary{background:linear-gradient(105deg,#fff1e3,#fff9f4);border-left:5px solid #ed8b3e}
+#naranja #nxManualFold>summary{background:linear-gradient(105deg,#edf5fb,#f9fcff);border-left:5px solid #6a9cbb}
+#naranja .nx-fold-icon{background:#ffdfc1;color:#995018}
+#naranja #nxManualFold .nx-fold-icon{background:#dbeaf4;color:#355f79}
+#naranja .nx-fold[open]>summary{border-bottom:1px solid #eee3db}
+#naranja .nx-fold summary b{font-weight:750}
+#naranja .nx-fold summary small{color:#65727b}
+#naranja .nx-summary .nx-total-card{background:#fff0e3;border-color:#f2d7c0}
+#naranja .nx-summary .nx-person-card:nth-child(2){background:#edf6fb;border-color:#d9e9f2}
+#naranja .nx-summary .nx-person-card:nth-child(3){background:#f3effa;border-color:#e8ddf5}
+#naranja .nx-summary .nx-pending-card{background:#fff7e9;border-color:#f2dfbd}
+#naranja .nx-summary .card strong{color:#243c50}
+#naranja .nx-summary .nx-pending-card strong{color:#ae621d}
+#naranja .nx-person-icon{background:#ffffffbd;color:#34536b}
+#naranja .nx-guide{background:#f0f8f4;border-color:#d7eadd}
+#naranja .nx-guide-icon{background:#d5efdf;color:#26754a}
+#naranja .nx-card{border-color:#e6e4e1}
+#naranja .nx-pdf-table th{background:#f5f7f9;color:#344a5c}
+#naranja .nx-pdf-table tbody tr:nth-child(even){background:#fbfcfd}
+#naranja .nx-pdf-table tbody tr:hover{background:#fff6ed}
+#naranja input:focus-visible,#naranja select:focus-visible{outline:2px solid #e58c42;outline-offset:1px}
+#naranja button.primary{background:#e77a28!important;border-color:#e77a28!important;color:white!important}
+#naranja button.primary:hover{background:#c86519!important}
+#naranja .nx-month input{border-color:#d9dfe3}
+#naranja #nxSavedStatements{border-left:4px solid #e7a56e}
+#naranja .nx-future-row strong{color:#a65821}
+@media(max-width:650px){#naranja .nx-pdf-scroll{overflow-x:auto}#naranja .nx-fold summary{min-height:68px}}
+</style><style>
+#naranja .nx-brand-header{display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fff;border:1px solid #ececec;border-radius:17px;padding:10px 20px;margin:4px 0 20px;flex-wrap:wrap}
+#naranja .nx-brand-logo{width:210px;max-width:58%;height:72px;object-fit:contain;object-position:left center}
+#naranja .nx-brand-header span{font-size:14px;color:#686868}
+@media(max-width:560px){#naranja .nx-brand-logo{width:165px;height:57px}#naranja .nx-brand-header{padding:8px 12px}}
+</style><style id="ultra-hd-responsive">
+/* Diseño adaptable a pantallas 4K y monitores de alta densidad: no requiere una imagen de fondo 4K. */
+:root{font-family:Inter,"Segoe UI Variable","Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.wrap{width:min(100%,1880px);padding:clamp(16px,1.5vw,36px) clamp(16px,2.1vw,48px) 75px}
+header{margin-bottom:clamp(18px,1.2vw,30px)}
+h1{font-size:clamp(24px,1.25vw,36px)}
+header small{font-size:clamp(14px,.8vw,20px)}
+h2{font-size:clamp(21px,1.1vw,30px)}
+.hero{padding:clamp(23px,1.7vw,43px);min-height:clamp(170px,10vw,240px)}
+.hero strong{font-size:clamp(34px,2.2vw,57px)}
+.hero>div:first-child{font-size:clamp(17px,.92vw,24px)}
+.hero-totals{font-size:clamp(14px,.85vw,21px)}
+.quick{height:clamp(95px,6vw,145px);font-size:clamp(16px,.95vw,23px)}
+.quick .ui-icon{width:clamp(24px,1.5vw,35px);height:clamp(24px,1.5vw,35px)}
+.card{padding:clamp(18px,1.25vw,31px)}
+#naranja .nx-brand-header{padding:clamp(16px,1.5vw,30px);gap:20px}
+#naranja .nx-brand-logo{width:clamp(250px,20vw,460px);height:clamp(90px,8.5vw,175px);max-width:75%;object-fit:contain;object-position:left center}
+#naranja .nx-brand-header span{font-size:clamp(14px,.85vw,20px)}
+#naranja .nx-fold summary{font-size:clamp(16px,.95vw,23px);padding:clamp(16px,1.3vw,28px)}
+#naranja .nx-fold summary small{font-size:clamp(13px,.75vw,18px)}
+#naranja .nx-summary .card strong{font-size:clamp(24px,1.8vw,42px)}
+#naranja .nx-summary .card small{font-size:clamp(14px,.85vw,20px)}
+#naranja .nx-pdf-table{font-size:clamp(13px,.75vw,18px)}
+#naranja .nx-pdf-table th,#naranja .nx-pdf-table td{padding:clamp(10px,.8vw,18px)}
+#naranja input,#naranja select{font-size:clamp(15px,.82vw,20px);min-height:45px}
+#naranja button.primary,#naranja #nxPdfImport{font-size:clamp(15px,.85vw,20px);min-height:47px}
+#naranja .nx-pdf-scroll{max-height:min(55vh,850px)}
+@media(min-width:2200px){.wrap{width:min(92vw,2200px)}.quick-actions{gap:20px}.nx-summary{gap:20px!important}}
+@media(max-width:700px){.wrap{padding:16px 13px 55px}#naranja .nx-brand-logo{width:235px;height:95px;max-width:100%}#naranja .nx-brand-header span{font-size:13px}#naranja .nx-summary{grid-template-columns:repeat(2,minmax(0,1fr))}#naranja .nx-pdf-scroll{overflow-x:auto}#naranja .nx-fold summary{padding:15px}}
+</style><style id="nxPdfLargeOverview">
+#naranja #nxPdfPreview .nx-title h2{font-size:clamp(24px,1.7vw,34px);letter-spacing:-.6px;font-weight:750}
+#naranja #nxPdfPreview .nx-title small{font-size:15px;font-weight:600}
+#naranja .nx-pdf-main-fields{gap:18px;align-items:stretch;margin:20px 0 22px}
+#naranja .nx-pdf-main-fields>div{background:#fafafa;border:1px solid #e8e8e8;border-radius:16px;padding:18px 20px}
+#naranja .nx-pdf-main-fields label{font-size:16px;font-weight:700;color:#333;margin:0 0 12px}
+#naranja .nx-pdf-main-fields #nxPdfMonth{font-size:20px;min-height:58px}
+#naranja .nx-pdf-total-field{background:#fff6ed!important;border-color:#f6d3b4!important}
+#naranja .nx-total-input{display:flex;align-items:center;gap:9px}
+#naranja .nx-total-input>span{font-size:clamp(25px,2vw,37px);font-weight:800;color:#c65b0d}
+#naranja .nx-total-input #nxPdfTotal{font-size:clamp(25px,2vw,37px)!important;font-weight:800!important;min-height:58px;border:0!important;background:transparent!important;color:#a94a08!important;letter-spacing:-.7px;width:100%;padding:3px!important}
+#naranja #nxPdfFuture{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;margin:0 0 20px}
+#naranja #nxPdfFuture h3{font-size:clamp(19px,1.4vw,25px);margin:0 0 14px;letter-spacing:-.3px}
+#naranja #nxPdfFutureRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+#naranja #nxPdfFutureRows .nx-future-row{background:#f7f8f9;border:1px solid #e9eaec;border-radius:12px;padding:15px 17px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0}
+#naranja #nxPdfFutureRows .nx-future-row span{font-size:17px;font-weight:600;color:#515151}
+#naranja #nxPdfFutureRows .nx-future-row strong{font-size:clamp(19px,1.35vw,26px);font-weight:750;color:#202020;white-space:nowrap}
+#naranja #nxPdfFuture>p{margin:13px 0 0}
+@media(max-width:700px){#naranja .nx-pdf-main-fields,#naranja #nxPdfFutureRows{grid-template-columns:1fr}#naranja .nx-pdf-main-fields>div{padding:14px}#naranja #nxPdfFuture{padding:14px}#naranja #nxPdfFutureRows .nx-future-row{padding:12px}#naranja #nxPdfFutureRows .nx-future-row strong{font-size:21px}}
+</style>
+<style id="modelo-a-premium">
+:root{--nx-orange:#ef701e;--nx-orange-dark:#bd4f0b;--nx-text:#243746;--nx-muted:#667785;--nx-bg:#f8f9fb;--nx-border:#e5e9ee;font-family:Inter,Manrope,"Segoe UI",system-ui,sans-serif!important;color:var(--nx-text);background:var(--nx-bg)}
+body{background:var(--nx-bg);color:var(--nx-text)}
+.wrap{background:transparent;width:min(calc(100% - 32px),1440px);padding:clamp(16px,2vw,36px) clamp(8px,1.4vw,24px) 90px}
+header{margin-bottom:24px}header h1{font-size:clamp(23px,1.7vw,32px);font-weight:800;letter-spacing:-.9px;color:#243746}header small{color:var(--nx-muted)}
+h2{color:#243746;font-size:clamp(19px,1.4vw,25px)}
+.hero{background:linear-gradient(115deg,#f16c1a,#f7974b);border-radius:26px;padding:clamp(24px,2.4vw,40px);box-shadow:0 12px 30px rgba(228,103,28,.13)}
+.hero strong{font-size:clamp(34px,3vw,54px)}
+.quick{background:#fff;border:1px solid var(--nx-border);box-shadow:0 3px 12px rgba(23,49,66,.035);height:112px;border-radius:20px;color:#243746}
+.quick:hover,.quick:focus-visible{background:#fff7f0;border-color:#f3c29f}.quick .ui-icon{color:#dc6b22;width:28px;height:28px}
+.card,#naranja .nx-card,#naranja .nx-fold,.extra-actions button{background:#fff;border:1px solid var(--nx-border);border-radius:20px;box-shadow:0 4px 18px rgba(34,54,68,.035)}
+button.primary,.primary{background:#ec701d!important;border-color:#ec701d!important;color:white!important;box-shadow:0 3px 8px rgba(239,112,30,.12)}
+button.primary:hover{background:#d45c10!important}
+input,select,textarea{border-color:#dce2e7;border-radius:12px;color:#253746;background:#fff;min-height:45px}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #f6b782;outline-offset:2px}
+.section-nav{border-bottom-color:#e9e9e9}.section-nav button{color:#c65a12}
+#naranja .nx-brand-header{border-radius:22px;background:linear-gradient(110deg,#fff8f1,#fff);border:1px solid #f6e4d5;padding:12px 22px;margin-bottom:20px;gap:20px}
+#naranja .nx-brand-logo{width:clamp(240px,25vw,410px);height:clamp(85px,9vw,140px);object-fit:contain}
+#naranja .nx-brand-header span{color:#9b5b31;font-size:clamp(13px,1vw,17px)}
+#naranja .nx-summary{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+#naranja .nx-summary .card{min-height:150px;padding:24px;border-radius:20px}
+#naranja .nx-summary .nx-total-card{background:#fff1e5;border-color:#f6ddc6}
+#naranja .nx-summary .nx-total-card strong{color:#b94e11}
+#naranja .nx-summary .nx-person-card:nth-child(2){background:#eaf4fb;border-color:#d9e9f5}
+#naranja .nx-summary .nx-person-card:nth-child(2) strong{color:#275f88}
+#naranja .nx-summary .nx-person-card:nth-child(3){background:#f4edfa;border-color:#e8dff4}
+#naranja .nx-summary .nx-person-card:nth-child(3) strong{color:#7952a0}
+#naranja .nx-summary .nx-pending-card{background:#fff9f3;border-color:#f4e2d0}
+#naranja .nx-summary .card strong{font-size:clamp(23px,1.9vw,34px)}
+#naranja .nx-section-title{margin-top:32px}
+#naranja #nxPdfFold>summary{background:#fff8f1;border-left:5px solid #ed7a2d}
+#naranja #nxManualFold>summary{background:#f3f8fc;border-left:5px solid #699cc1}
+#naranja .nx-fold summary{border-radius:17px;padding:20px 24px;font-size:18px}
+#naranja .nx-fold-icon{background:#fff0e4;color:#c75c15}
+#naranja .nx-fold-content{padding:5px 24px 25px}
+#naranja #nxPdfPreview .nx-title{padding-bottom:12px}
+#naranja #nxPdfPreview .nx-title h2{font-size:clamp(24px,1.9vw,34px)}
+#naranja .nx-pdf-scroll{border-radius:16px;border-color:#e5e9ed;max-height:570px}
+#naranja .nx-pdf-table{font-size:15px;min-width:850px}
+#naranja .nx-pdf-table th{background:#fff5ed;color:#754b30;font-size:13px;text-transform:none;letter-spacing:.01em}
+#naranja .nx-pdf-table td{padding:15px 12px;border-bottom:1px solid #edf0f2}
+#naranja .nx-pdf-table tr:nth-child(even) td{background:#fcfcfd}
+#naranja .nx-pdf-table td b{color:#233849;font-size:15px}
+#naranja .nx-pdf-table td small{color:#79838b}
+#naranja .nx-pdf-table select{font-size:14px;min-width:145px}
+#naranja .nx-pdf-table input[type=number]{font-weight:650;font-variant-numeric:tabular-nums}
+#naranja #nxPdfTotal{font-size:clamp(23px,2vw,34px);font-weight:800;color:#b85213;background:#fff5ed;border-color:#f4cfb4;min-height:64px}
+#naranja #nxPdfFuture{background:#fffaf5;border:1px solid #f5e3d3;border-radius:17px;padding:16px 20px;margin-top:16px}
+#naranja .nx-future-row{padding:16px 8px;border-color:#f1e7de}
+#naranja .nx-future-row strong{color:#b85418;font-size:clamp(18px,1.5vw,24px)}
+#naranja .nx-guide{background:#fffaf5;border-color:#f4e4d7}
+#naranja .nx-pdf-scroll input[type=checkbox]{accent-color:#ee741f}
+#naranja .nx-entry-right strong{color:#243746}
+#naranja .nx-pay{border-color:#f0c49f;color:#b65b1d;background:#fff6ee}
+@media(min-width:2000px){.wrap{width:min(calc(100% - 100px),1900px)}body{font-size:18px}.quick{height:135px;font-size:19px}.card{padding:28px}.nx-pdf-table td{padding:19px 16px!important}}
+@media(max-width:900px){#naranja .nx-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{width:min(100% - 18px,850px)}}
+@media(max-width:600px){.wrap{width:100%;padding:16px 12px 60px}.quick{height:95px;font-size:15px}#naranja .nx-summary{gap:9px}#naranja .nx-summary .card{padding:14px;min-height:115px}#naranja .nx-summary .card strong{font-size:clamp(18px,5vw,25px)}#naranja .nx-brand-header{padding:12px}#naranja .nx-brand-logo{width:210px;height:85px}#naranja .nx-fold-content{padding:4px 12px 18px}#naranja .nx-pdf-scroll{overflow-x:auto}#naranja .nx-fold summary{padding:14px;font-size:16px}}
+</style>
+<style id="nx-full-list-no-inner-scroll">
+/* La lista de consumos crece con todas sus filas: solo desplaza la página. */
+#naranja .nx-pdf-scroll{max-height:none!important;height:auto!important;overflow-y:visible!important;overflow-x:visible!important;contain:none!important}
+#naranja .nx-pdf-table{width:100%;}
+#naranja .nx-pdf-table th{position:static!important}
+@media(max-width:850px){#naranja .nx-pdf-scroll{overflow-x:auto!important;overflow-y:visible!important}#naranja .nx-pdf-table{min-width:850px}}
+</style>
+<style id="nxCardListStyle">
+/* Vista de compras tipo lista bancaria, sin barra vertical interna. */
+#naranja .nx-pdf-scroll{max-height:none!important;overflow:visible!important;border:0!important;background:transparent!important}
+#naranja .nx-pdf-table{display:block;min-width:0!important;width:100%!important;border:0!important;border-collapse:separate!important}
+#naranja .nx-pdf-table thead{display:none!important}
+#naranja .nx-pdf-table tbody{display:block;width:100%}
+#naranja .nx-pdf-table tbody tr{display:grid;grid-template-columns:34px minmax(0,1fr) minmax(145px,220px) minmax(150px,225px);grid-template-areas:"check detail amount amount" ". detail owner match";column-gap:12px;row-gap:9px;align-items:center;padding:18px 14px!important;margin:0;border-bottom:1px solid #e8eaed;background:#fff!important}
+#naranja .nx-pdf-table tbody tr:hover{background:#fffaf6!important}
+#naranja .nx-pdf-table td{display:block;min-width:0;padding:0!important;border:0!important;background:transparent!important}
+#naranja .nx-pdf-table td:nth-child(1){grid-area:check;align-self:start;padding-top:3px!important}
+#naranja .nx-pdf-table td:nth-child(2){grid-area:detail;align-self:center}
+#naranja .nx-pdf-table td:nth-child(3){grid-area:amount;text-align:right}
+#naranja .nx-pdf-table td:nth-child(4){grid-area:owner}
+#naranja .nx-pdf-table td:nth-child(5){grid-area:match}
+#naranja .nx-pdf-table td:nth-child(2) b{font-size:clamp(15px,1vw,19px);font-weight:700;line-height:1.35;display:block;overflow-wrap:anywhere}
+#naranja .nx-pdf-table td:nth-child(2) small{display:block;font-size:13px;margin-top:6px;color:#7b8288}
+#naranja .nx-pdf-table td:nth-child(3) input{width:clamp(130px,15vw,210px)!important;max-width:100%;background:transparent!important;border:1px solid transparent!important;text-align:right;font-size:clamp(17px,1.2vw,23px)!important;font-weight:750!important;color:#182b37;padding:5px 4px!important;min-height:36px}
+#naranja .nx-pdf-table td:nth-child(3) input:focus,#naranja .nx-pdf-table td:nth-child(3) input:hover{border-color:#e4b28f!important;background:#fff!important}
+#naranja .nx-pdf-table tr.nx-credit-row td:nth-child(3) input{color:#087c4c!important}
+#naranja .nx-pdf-table td:nth-child(4) select,#naranja .nx-pdf-table td:nth-child(5) select{width:100%;min-width:0!important;border-radius:999px!important;padding:10px 13px!important;font-size:14px!important;min-height:43px;background:#fff!important}
+#naranja .nx-pdf-table td:nth-child(4) select:disabled{background:#f7f7f7!important;color:#777!important}
+#naranja .nx-pdf-table input[type=checkbox]{accent-color:#e76c1d;width:20px;height:20px}
+#naranja .nx-person-card:nth-child(2) .nx-person-icon{background:#d7e9f5;color:#205c80}
+#naranja .nx-person-card:nth-child(3) .nx-person-icon{background:#e7d9f3;color:#764d99}
+@media(max-width:750px){
+ #naranja .nx-pdf-table tbody tr{grid-template-columns:28px minmax(0,1fr) minmax(100px,auto);grid-template-areas:"check detail amount" ". owner owner" ". match match";column-gap:8px;padding:16px 8px!important}
+ #naranja .nx-pdf-table td:nth-child(3) input{width:125px!important;font-size:16px!important}
+ #naranja .nx-pdf-table td:nth-child(4) select,#naranja .nx-pdf-table td:nth-child(5) select{max-width:100%}
+}
+@media(max-width:440px){#naranja .nx-pdf-table tbody tr{grid-template-columns:25px minmax(0,1fr);grid-template-areas:"check detail" ". amount" ". owner" ". match"}#naranja .nx-pdf-table td:nth-child(3){text-align:left}#naranja .nx-pdf-table td:nth-child(3) input{text-align:left!important}}
+</style>
+<style id="nxCompactBrand2026">
+#naranja .nx-brand-header{display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;gap:18px!important;min-height:0!important;padding:clamp(16px,1.6vw,28px)!important;margin:4px 0 20px!important;background:#fff!important;border:1px solid #eee2d9!important;border-radius:20px!important;box-shadow:0 4px 16px rgba(84,53,25,.035)!important}
+#naranja .nx-brand-identity{display:flex;align-items:center;gap:clamp(14px,1.4vw,25px);min-width:0;flex:1}
+#naranja .nx-logo-frame{display:flex;align-items:center;justify-content:center;flex:none;background:#fff5ec;border-radius:14px;padding:clamp(12px,1.1vw,18px);width:clamp(155px,14vw,240px);height:clamp(72px,6vw,102px)}
+#naranja .nx-brand-logo{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;object-fit:contain!important;object-position:center!important}
+#naranja .nx-brand-copy{display:flex;flex-direction:column;gap:6px;min-width:0}
+#naranja .nx-brand-copy strong{font-size:clamp(18px,1.4vw,27px);font-weight:750;line-height:1.2;color:#243441;letter-spacing:-.35px}
+#naranja .nx-brand-copy span{font-size:clamp(13px,.9vw,17px)!important;color:#6e7680!important;line-height:1.4}
+#naranja .nx-brand-chip{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid #ffdcc2;background:#fff6ed;color:#a85115;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap}
+#naranja .nx-chip-dot{width:8px;height:8px;background:#ef741e;border-radius:50%}
+@media(max-width:720px){#naranja .nx-brand-header{padding:15px!important;gap:10px!important}#naranja .nx-logo-frame{width:115px;height:67px;padding:10px}#naranja .nx-brand-identity{gap:12px}#naranja .nx-brand-copy strong{font-size:16px}#naranja .nx-brand-copy span{font-size:12px!important}#naranja .nx-brand-chip{display:none}}
+@media(max-width:380px){#naranja .nx-logo-frame{width:100px;height:58px}#naranja .nx-brand-copy strong{font-size:15px}}
+</style>
+<style id="nxCompactRowsLikeReference">
+/* Filas compactas como la referencia elegida: comercio e importe arriba, controles debajo a la derecha. */
+#naranja .nx-pdf-table tbody tr{grid-template-columns:30px minmax(0,1fr) minmax(155px,225px) minmax(155px,225px)!important;grid-template-areas:"check detail amount amount" ". detail owner match"!important;column-gap:12px!important;row-gap:4px!important;min-height:0!important;padding:13px 15px!important;align-items:center!important;background:#fff!important}
+#naranja .nx-pdf-table tbody tr:hover{background:#fffaf6!important}
+#naranja .nx-pdf-table td:nth-child(1){align-self:center!important;padding:0!important}
+#naranja .nx-pdf-table td:nth-child(2){align-self:center!important}
+#naranja .nx-pdf-table td:nth-child(2) b{font-size:clamp(15px,.9vw,18px)!important;line-height:1.25!important}
+#naranja .nx-pdf-table td:nth-child(2) small{font-size:clamp(12px,.72vw,14px)!important;margin-top:4px!important}
+#naranja .nx-pdf-table td:nth-child(3){align-self:end!important}
+#naranja .nx-pdf-table td:nth-child(3) input{min-height:30px!important;font-size:clamp(17px,1.1vw,21px)!important}
+#naranja .nx-pdf-table td:nth-child(4),#naranja .nx-pdf-table td:nth-child(5){align-self:start!important}
+#naranja .nx-pdf-table td:nth-child(4) select,#naranja .nx-pdf-table td:nth-child(5) select{min-height:38px!important;padding:7px 12px!important;font-size:14px!important}
+#naranja .nx-pdf-table tbody tr.nx-credit-row{background:#fffaf6!important}
+@media(max-width:750px){#naranja .nx-pdf-table tbody tr{grid-template-columns:26px minmax(0,1fr) minmax(90px,auto)!important;grid-template-areas:"check detail amount" ". owner owner" ". match match"!important;padding:12px 8px!important;row-gap:7px!important}#naranja .nx-pdf-table td:nth-child(3) input{width:110px!important;font-size:16px!important}}
+@media(max-width:440px){#naranja .nx-pdf-table tbody tr{grid-template-columns:25px minmax(0,1fr)!important;grid-template-areas:"check detail" ". amount" ". owner" ". match"!important}#naranja .nx-pdf-table td:nth-child(3){text-align:left!important}#naranja .nx-pdf-table td:nth-child(3) input{text-align:left!important}}
+</style>
+<style id="titulo-modelo-1-cobre">
+/* Solo cambia la marca del encabezado; no afecta otras pantallas. */
+header h1{font-family:"Poppins","Avenir Next","Century Gothic","Segoe UI",sans-serif!important;font-weight:750!important;letter-spacing:-.055em!important;color:#B45309!important;font-size:clamp(28px,2.2vw,43px)!important;line-height:1.2!important;text-transform:none!important}
+@media(max-width:600px){header h1{font-size:clamp(26px,7vw,34px)!important}}
+</style><style id="nxPremiumOverviewRedesign">
+/* Nuevo diseño real del resumen: total oficial, responsables y cuotas compactas */
+#naranja .nx-premium-overview{display:flex;flex-direction:column;gap:14px;margin:22px 0 26px}
+#naranja .nx-overview-total{padding:27px 30px;border-radius:23px;background:#fff0e3;border:1px solid #f9dfc9;min-height:145px}
+#naranja .nx-overview-top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:750;color:#945017;font-size:16px}
+#naranja .nx-overview-caption{font-size:12px;letter-spacing:.04em;font-weight:650;text-transform:uppercase;opacity:.75}
+#naranja .nx-overview-total>strong{display:block;font-size:clamp(29px,3.1vw,52px);line-height:1.2;letter-spacing:-.045em;color:#a94d0c;margin:14px 0 7px;overflow-wrap:anywhere}
+#naranja .nx-overview-total>small{font-size:14px;color:#9a6b49}
+#naranja .nx-overview-people{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#naranja .nx-overview-person{border-radius:21px;padding:24px 26px;min-width:0;display:flex;flex-direction:column;gap:10px;border:1px solid transparent}
+#naranja .nx-aaron{background:#eaf4fc;border-color:#d6e9f6;color:#205a83}
+#naranja .nx-daniela{background:#fce8f1;border-color:#f6d3e3;color:#a52c69}
+#naranja .nx-person-heading{display:flex;align-items:center;gap:11px;font-size:18px;font-weight:750}
+#naranja .nx-person-avatar{width:34px;height:34px;display:grid;place-items:center;background:#ffffffad;border-radius:50%;font-size:14px;font-weight:800}
+#naranja .nx-overview-person>strong{font-size:clamp(24px,2.5vw,39px);line-height:1.2;letter-spacing:-.035em;overflow-wrap:anywhere}
+#naranja .nx-overview-person>small{font-size:14px;opacity:.82}
+#naranja .nx-overview-footer{border:1px solid #e9e9e9;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px}
+#naranja .nx-overview-footer>div{display:flex;flex-direction:column;gap:5px}
+#naranja .nx-footer-label{color:#666;font-size:13px}
+#naranja .nx-overview-footer strong{font-size:22px;color:#292929}
+#naranja .nx-overview-footer button{background:#fff7f0;border:1px solid #f2d4bd;border-radius:11px;color:#a95415;padding:11px 15px;font-weight:700;white-space:nowrap}
+#naranja .nx-overview-footer button span{font-size:20px;vertical-align:middle;margin-left:5px}
+#naranja .nx-overview-check{font-size:14px;color:#8b621f;padding:11px 14px;border-radius:11px;background:#fff9eb;border:1px solid #f4e6c9}
+#naranja .nx-overview-check.is-verified{background:#edf8f0;border-color:#cce9d3;color:#237345}
+#naranja #nxInstallmentsAnchor{scroll-margin-top:22px}
+@media(min-width:1800px){#naranja .nx-premium-overview{max-width:1480px;margin-left:auto;margin-right:auto}#naranja .nx-overview-total{padding:34px 40px}#naranja .nx-overview-person{padding:30px 36px}}
+@media(max-width:600px){#naranja .nx-premium-overview{gap:10px}#naranja .nx-overview-total{padding:20px;min-height:0}#naranja .nx-overview-people{grid-template-columns:1fr;gap:10px}#naranja .nx-overview-person{padding:19px 20px;gap:8px}#naranja .nx-overview-person>strong{font-size:29px}#naranja .nx-overview-footer{padding:13px;gap:8px}#naranja .nx-overview-footer button{padding:9px 10px}#naranja .nx-overview-footer strong{font-size:19px}}
+
+/* Naranja X Premium Bancario — lista compacta y selección rápida */
+#naranja .nx-pdf-scroll{max-height:none!important;overflow:visible!important;border:0!important;margin:14px 0!important}
+#naranja .nx-bulk-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff8f3;border:1px solid #f3dfd0;padding:13px 15px;border-radius:16px;margin-top:16px}
+#naranja .nx-bulk-select{display:flex;align-items:center;gap:8px;margin:0;font-weight:700;color:#27384b}
+#naranja .nx-bulk-select input{width:19px;height:19px;accent-color:#ef6b1b}
+#naranja #nxSelectedCount{font-size:12px;color:#718096}
+#naranja .nx-bulk-choices{display:flex;gap:6px;margin-left:auto}
+#naranja .nx-owner-btn{border:1px solid #dbe1e6;border-radius:10px;background:#fff;color:#64748b;padding:8px 12px;min-height:36px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+#naranja .nx-owner-btn.owner-yo.active{background:#e5f2ff;color:#1766a4;border-color:#4d9ddd}
+#naranja .nx-owner-btn.owner-ella.active{background:#fde5f0;color:#b02e6d;border-color:#dd78a8}
+#naranja .nx-owner-btn.owner-ambos.active{background:#ddf6e7;color:#167b46;border-color:#4aa978}
+#naranja .nx-owner-btn:disabled{opacity:.5;cursor:not-allowed}
+#naranja .nx-pdf-list-head{display:grid;grid-template-columns:minmax(180px,2fr) minmax(240px,1.7fr) minmax(130px,1.15fr) minmax(110px,.8fr);gap:12px;padding:12px 16px 12px 50px;background:#fff0e5;border-radius:12px 12px 0 0;color:#74452e;font-size:12px;font-weight:800}
+#naranja .nx-pdf-list{border:1px solid #e9e9ed;border-top:0;border-radius:0 0 12px 12px;overflow:hidden}
+#naranja .nx-pdf-item{display:grid;grid-template-columns:26px minmax(180px,2fr) minmax(240px,1.7fr) minmax(130px,1.15fr) minmax(110px,.8fr);align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #edf0f3;background:#fff;position:relative}
+#naranja .nx-pdf-item:last-child{border-bottom:0}
+#naranja .nx-pdf-item:hover{background:#fffdfb}
+#naranja .nx-item-check input{width:18px;height:18px;accent-color:#f07825}
+#naranja .nx-item-detail b{display:block;font-size:14px;color:#21354b}
+#naranja .nx-item-detail small{display:block;margin-top:4px;color:#7b8796;font-size:12px}
+#naranja .nx-item-owners{display:flex;gap:4px}
+#naranja .nx-item-owners .nx-owner-btn{padding:7px 9px;flex:1;min-width:0}
+#naranja .nx-item-match select{width:100%;min-width:0;min-height:36px;padding:6px 8px;font-size:12px;border:1px solid #e0e4e8;border-radius:10px;background:#fff}
+#naranja .nx-item-amount input{width:100%;min-width:0;max-width:150px;min-height:36px;text-align:right;border:1px solid transparent;background:transparent;font-weight:800;font-size:15px;color:#21354b;padding:6px}
+#naranja .nx-credit-row .nx-item-amount input{color:#118044}
+#naranja .nx-item-amount input:focus,#naranja .nx-item-amount input:hover{border-color:#d5dbe1;background:#fff}
+#naranja .nx-amount-label{display:none}
+#naranja .nx-locked-note{grid-column:3/4;color:#16814b;font-size:10px;margin-top:-8px}
+@media(max-width:1050px){#naranja .nx-pdf-list-head{display:none}#naranja .nx-pdf-item{grid-template-columns:25px minmax(0,1fr) auto;gap:9px 10px}#naranja .nx-item-detail{grid-column:2/3}#naranja .nx-item-amount{grid-column:3;grid-row:1}#naranja .nx-item-owners{grid-column:2/4}#naranja .nx-item-match{grid-column:2/4}#naranja .nx-locked-note{grid-column:2/4;margin:0}#naranja .nx-item-amount input{width:125px}#naranja .nx-bulk-choices{margin-left:0}}
+@media(max-width:520px){#naranja .nx-pdf-item{padding:12px 9px}#naranja .nx-item-detail b{font-size:13px}#naranja .nx-item-amount input{width:105px;font-size:13px}#naranja .nx-owner-btn{font-size:12px;padding:7px 8px}#naranja .nx-bulk-bar{padding:10px}#naranja #nxBulkApply{width:100%}}
+</style></head><body><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><defs><symbol id="ic-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="M3 10h18M16 15h2"/><path d="M6 6V4h12"/></symbol><symbol id="ic-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21v-8h6v8"/></symbol><symbol id="ic-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/><path d="m7 5-2 2 2 2m10 1 2 2-2 2"/></symbol><symbol id="ic-credit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h5"/></symbol><symbol id="ic-repeat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4M3 11V8a2 2 0 0 1 2-2h16M7 22l-4-4 4-4M21 13v3a2 2 0 0 1-2 2H3"/></symbol><symbol id="ic-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15h5l3 3h4a3 3 0 0 0 3-3l3-3M3 12h7l3 3M3 20V9"/><circle cx="17" cy="6" r="3"/></symbol><symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M19 5l-2 2M7 17l-2 2"/></symbol><symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></symbol><symbol id="ic-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M7 12h10"/></symbol><symbol id="ic-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol><symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h12M9 12h12M9 18h12M3 6h1M3 12h1M3 18h1"/></symbol><symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></symbol><symbol id="ic-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 17v4h16v-4"/></symbol></defs></svg><main class="wrap"><header><div><h1>Mis Finanzas</h1><small>Tu dinero, siempre organizado</small></div><button class="icon-button" data-tab="ajustes" aria-label="Abrir ajustes"><svg class="ui-icon" aria-hidden="true"><use href="#ic-wallet"></use></svg></button></header>
+<nav class="section-nav hidden" id="sectionNav"><button data-tab="inicio"><svg class="ui-icon" aria-hidden="true"><use href="#ic-house"></use></svg> Inicio</button><span id="sectionTitle"></span><button data-tab="ajustes" aria-label="Ajustes"><svg class="ui-icon" aria-hidden="true"><use href="#ic-settings"></use></svg></button></nav>
+<section id="inicio">
+<div class="hero"><div>Disponible este mes</div><strong id="balance">$ 0</strong><div class="hero-totals"><span class="hero-income">↗ &nbsp;Ingresos <b id="income">$ 0</b></span><span class="hero-expense">↘ &nbsp;Gastos <b id="expense">$ 0</b></span></div><p id="summary" class="hidden"></p></div>
+<div class="quick-actions">
+<button data-tab="movimientos" data-mode="gasto" class="quick"><svg class="ui-icon" aria-hidden="true"><use href="#ic-plus"></use></svg><span>Agregar gasto</span></button>
+<button data-tab="movimientos" data-mode="ingreso" class="quick"><svg class="ui-icon" aria-hidden="true"><use href="#ic-wallet"></use></svg><span>Ingresos</span></button>
+<button data-tab="naranja" class="quick"><svg class="ui-icon" aria-hidden="true"><use href="#ic-credit"></use></svg><span>Naranja X</span></button>
+<button data-tab="deudas" class="quick"><svg class="ui-icon" aria-hidden="true"><use href="#ic-hand"></use></svg><span>Me deben</span></button>
+</div>
+<div class="home-head"><h2>Últimos movimientos</h2><button data-tab="movimientos" class="text-button">Ver todos</button></div>
+<div id="homeMovements" class="home-movements"></div>
+<div class="extra-actions"><button data-tab="suscripciones"><svg class="ui-icon" aria-hidden="true"><use href="#ic-repeat"></use></svg> Suscripciones <span>›</span></button><button data-tab="ajustes"><svg class="ui-icon" aria-hidden="true"><use href="#ic-settings"></use></svg> Ajustes y respaldo <span>›</span></button></div>
+<div class="hidden" id="homePending"></div>
+</section>
+<section id="movimientos" class="hidden"><div class="card"><h2>Agregar movimiento</h2><form id="movementForm"><div class="grid"><div><label>Tipo</label><select name="type"><option value="gasto">Gasto</option><option value="ingreso">Ingreso</option></select></div><div><label>Importe ($)</label><input name="amount" type="number" step=".01" min=".01" required></div></div><label>Descripción</label><input name="name" required placeholder="Ej. Sueldo, luz, supermercado"><label>Fecha</label><input name="date" type="date" required><div class="actions"><button class="primary" type="submit">Guardar movimiento</button></div></form></div><div class="card" style="margin-top:14px"><h2>Movimientos registrados</h2><div id="movementsList"></div></div></section>
+<section id="naranja" class="hidden">
+<div class="nx-brand-header" aria-label="Naranja X, mis tarjetas y resúmenes">
+  <div class="nx-brand-identity"><div class="nx-logo-frame"><img src="naranja-x-logo-hd.png" alt="Naranja X" class="nx-brand-logo"></div><div class="nx-brand-copy"><strong>Mis tarjetas y resúmenes</strong><span>Compras, cuotas y pagos compartidos</span></div></div>
+  <div class="nx-brand-chip"><span class="nx-chip-dot"></span> Naranja X</div>
+</div>
+<p class="nx-intro">Acá pueden ver cuánto paga cada uno, las cuotas pendientes y el resumen de la tarjeta.</p>
+<div class="nx-month"><label for="nxMonth">Resumen del mes</label><input id="nxMonth" type="month"><button id="nxCurrent" type="button">Mes actual</button></div>
+<div class="nx-section-title"><h2>Cargar gastos de Naranja X</h2><p>Importá un PDF o agregá una compra manual.</p></div>
+<details class="nx-fold" id="nxPdfFold"><summary><span class="nx-fold-icon">↓</span><span><b>Cargar resumen PDF</b><small>Elegí el PDF y verificá los importes.</small></span><span class="nx-fold-chevron">›</span></summary><div class="nx-fold-content">
+<div class="card nx-card"><h2>Verificar resumen con compras cargadas</h2>
+<p class="muted">Elegí el PDF. Revisá los importes y elegí si la compra es de Aaron, Daniela o ambos.</p>
+<label for="nxPdfFile">Archivo PDF del resumen</label><input type="file" id="nxPdfFile" accept="application/pdf,.pdf">
+<div id="nxPdfStatus" class="muted" role="status"></div>
+<div id="nxPdfPreview" class="hidden"><div class="nx-title"><h2>Verificar resumen</h2><small id="nxPdfCount"></small></div>
+<div class="grid nx-pdf-main-fields"><div><label>Mes del resumen</label><input id="nxPdfMonth" type="month"></div><div class="nx-pdf-total-field"><label>Total del resumen</label><div class="nx-total-input"><span aria-hidden="true">$</span><input id="nxPdfTotal" type="number" step=".01" min="0" aria-label="Total del resumen en pesos"></div></div></div><div id="nxPdfFuture" class="nx-future-preview hidden"><h3>Cuotas futuras del resumen</h3><div id="nxPdfFutureRows"></div><p class="muted">Se guardarán junto con los consumos. Verificá que coincidan con la página de «Cuotas futuras» del PDF.</p></div><p class="muted">Elegí Aaron, Daniela o compartida en cada compra antes de guardarla. Si ya lo cargaste manualmente, elegí «Vincular existente» para no duplicarlo. Los cargos de IVA, mantenimiento, SMS, sellos y las notas de crédito se dividen 50/50.</p>
+<div class="nx-bulk-bar"><label class="nx-bulk-select"><input type="checkbox" id="nxSelectAll"> <span>Seleccionar todas las compras</span></label><span id="nxSelectedCount">0 seleccionadas</span><div class="nx-bulk-choices" role="group" aria-label="Asignación masiva"><button type="button" class="nx-owner-btn owner-yo" data-bulk-owner="yo">Aaron</button><button type="button" class="nx-owner-btn owner-ella" data-bulk-owner="ella">Daniela</button><button type="button" class="nx-owner-btn owner-ambos active" data-bulk-owner="ambos">50/50</button></div><button type="button" id="nxBulkApply" class="primary">Aplicar</button></div>
+<div class="nx-pdf-scroll"><div class="nx-pdf-list-head"><span>Comercio / concepto</span><span>Asignación</span><span>Verificar</span><span>Importe</span></div><div id="nxPdfRows" class="nx-pdf-list"></div></div>
+<div class="nx-actions"><button type="button" id="nxPdfImport" class="primary">Guardar resumen</button><button type="button" id="nxPdfCancel">Cancelar</button></div>
+</div></div></details><details class="nx-fold" id="nxManualFold"><summary><span class="nx-fold-icon">＋</span><span><b>Agregar compra manualmente</b><small>Registrá una compra sin subir un archivo.</small></span><span class="nx-fold-chevron">›</span></summary><div class="nx-fold-content"><div class="card nx-card"><h2>Carga manual de compras y cargos</h2><form id="naranjaForm"><label>Comercio o concepto</label><input name="name" required placeholder="Ej. Supermercado"><div class="grid"><div><label>Importe total ($)</label><input name="amount" type="number" step="0.01" required></div><div><label>Cantidad de cuotas</label><input name="installments" type="number" min="1" max="60" value="1" required></div></div><div class="grid"><div><label>Tipo de registro</label><select name="category"><option value="compra">Compra</option><option value="mantenimiento">Mantenimiento</option><option value="iva">IVA</option><option value="intereses">Intereses</option><option value="otro">Otro cargo</option><option value="nota_credito">Nota de crédito (descuento)</option></select></div><div><label>¿Quién hizo la compra?</label><select name="owner" required><option value="" selected disabled>Elegí una persona</option><option value="yo">Aaron</option><option value="ella">Daniela</option><option value="ambos">Compartida 50 / 50</option></select></div></div><div class="grid"><div><label>Fecha de compra</label><input name="date" type="date" required></div><div><label>Primera cuota en el resumen de</label><input name="firstMonth" type="month" required></div></div><button class="primary" type="submit" style="margin-top:16px">Guardar registro</button></form><p class="muted" style="font-size:13px">Carga manual: ingresá el importe total de la compra y la cantidad de cuotas. Al importar el PDF, vinculá las compras ya cargadas para evitar duplicaciones. Podés ajustar el primer mes de cuota según tu resumen.</p></div></div></details>
+<div class="card nx-card" id="nxSavedStatements"><div class="nx-title"><h2>Resúmenes importados</h2><small>Administrar</small></div><p class="muted">Podés eliminar un mes importado y sus compras del PDF. Las compras manuales se conservarán.</p><div id="nxStatementsList"></div></div><div id="nxReconcile" class="notice hidden"></div><div class="nx-premium-overview" aria-label="Resumen de pagos Naranja X">
+<div class="nx-overview-total"><div class="nx-overview-top"><span>Total del resumen</span><span class="nx-overview-caption">Naranja X</span></div><strong id="nxOfficialDisplay">Sin resumen cargado</strong><small id="nxOfficialHint">Seleccioná un mes o cargá un resumen PDF</small></div>
+<div class="nx-overview-people"><div class="nx-overview-person nx-aaron"><div class="nx-person-heading"><span class="nx-person-avatar">A</span><span>Aaron</span></div><strong id="myShare">$ 0</strong><small>Le corresponde pagar</small></div><div class="nx-overview-person nx-daniela"><div class="nx-person-heading"><span class="nx-person-avatar">D</span><span>Daniela</span></div><strong id="herShare">$ 0</strong><small>Le corresponde pagar</small></div></div>
+<div class="nx-overview-footer"><div><span class="nx-footer-label">Cuotas pendientes de pago</span><strong id="nxPending">$ 0</strong></div><button type="button" id="nxGoInstallments">Ver cuotas <span aria-hidden="true">›</span></button></div>
+<div class="nx-overview-check" id="nxOverviewCheck" role="status"></div><span id="nxTotal" class="hidden" aria-hidden="true"></span></div>
+<div class="nx-guide"><span class="nx-guide-icon">✓</span><div><strong>Así se divide el resumen</strong><p>Las compras personales se asignan a cada uno. Las compartidas van mitad y mitad. <b>IVA, mantenimiento, SMS y sellos siempre 50/50. Las notas de crédito se restan del total y se descuentan 50/50.</b></p></div></div>
+<div class="nx-section-title" id="nxInstallmentsAnchor"><h2>Cuotas y pagos del mes</h2><p>Consultá lo que corresponde pagar en el mes seleccionado.</p></div><div class="card nx-card"><div class="nx-title"><h2>Cuotas del mes</h2><small id="nxCount"></small></div><div id="nxInstallments"></div><div class="nx-actions"><button id="nxPayAll" type="button" class="primary">Marcar todas como pagadas</button></div></div>
+<details class="nx-fold"><summary>Ver todas las compras y cargos registrados <span>›</span></summary><div class="nx-fold-content"><div id="naranjaList"></div></div></details>
+</section>
+<section id="deudas" class="hidden"><div class="card"><h2>Registrar deuda o dinero pendiente</h2><form id="debtForm"><label>Concepto o persona</label><input name="name" required placeholder="Ej. Juan, préstamo"><div class="grid"><div><label>Tipo</label><select name="type"><option value="me_deben">Me deben</option><option value="debo">Yo debo</option></select></div><div><label>Importe ($)</label><input name="amount" type="number" step=".01" min=".01" required></div></div><button class="primary" style="margin-top:14px" type="submit">Guardar</button></form></div><div class="card" style="margin-top:14px"><h2>Pendientes</h2><div id="debtsList"></div></div></section>
+<section id="suscripciones" class="hidden"><div class="card"><h2>Suscripciones compartidas</h2><p class="muted">Registrá el costo mensual, el día de vencimiento del servicio y el día en que tu amigo debe pagarte. Su parte será el 50 %.</p><form id="subscriptionForm"><label>Persona que paga</label><input name="person" placeholder="Ej. Juan" required><label>Servicio</label><select name="name" id="serviceSelect"><option>Netflix</option><option>Amazon Prime Video</option><option>Sparkle TV</option><option>Otro</option></select><div id="customServiceBox" class="hidden"><label>Nombre del nuevo servicio</label><input name="customService" id="customServiceInput" placeholder="Ej. Disney+, Spotify, Internet"></div><div class="grid"><div><label>Costo mensual total ($)</label><input type="number" name="amount" min="0.01" step="0.01" required></div><div><label>Día de vencimiento (1-31)</label><input type="number" name="dueDay" min="1" max="31" required></div><div><label>Día de cobro a tu amigo (1-31)</label><input type="number" name="collectDay" min="1" max="31" required></div></div><button class="primary" type="submit" style="margin-top:14px">Agregar suscripción</button></form></div><div class="stats"><div class="card"><small>Total mensual asignado</small><br><strong id="subscriptionTotal">$ 0</strong></div><div class="card"><small>Pendiente este mes</small><br><strong id="subscriptionPending">$ 0</strong></div></div><div class="card"><h2>Servicios y cobros</h2><div id="subscriptionList"></div></div><div class="notice">Las fechas 29, 30 y 31 se ajustan al último día de los meses más cortos. Esta versión muestra los vencimientos, pero todavía no envía notificaciones automáticas.</div></section><section id="ajustes" class="hidden"><div class="card"><h2>Copias de seguridad</h2><p>Los datos se guardan en este navegador. Exportá una copia periódicamente para evitar perderlos.</p><div class="actions"><button id="exportBtn" class="primary">Exportar copia JSON</button><label class="btn" style="margin:0">Importar copia JSON<input type="file" id="importFile" accept=".json,application/json" style="display:none"></label></div><p class="muted">Importar reemplaza los registros actuales, previa confirmación.</p></div><div class="card" style="margin-top:14px"><h2>Próximas funciones</h2><p>Sincronización segura Naranja X, voz, lectura de tickets, cierre mensual y reportes PDF/Excel.</p></div></section>
+</main><script>
+const KEY='mis-finanzas-v1';let db;try{db=JSON.parse(localStorage.getItem(KEY))||{movements:[],naranja:[],debts:[],subscriptions:[],subscriptionPayments:[]}}catch{db={movements:[],naranja:[],debts:[],subscriptions:[],subscriptionPayments:[]}};for(const k of ['movements','naranja','debts','subscriptions','subscriptionPayments','naranjaPayments'])if(!Array.isArray(db[k]))db[k]=[];const $=s=>document.querySelector(s),money=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS'}).format(n||0),today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};document.querySelectorAll('input[type=date]').forEach(x=>x.value=today());function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function list(el,items,renderItem,kind){$(el).innerHTML=items.length?items.map(x=>`<div class="item"><div>${renderItem(x)}</div><button class="danger" data-kind="${kind}" data-id="${x.id}" aria-label="Eliminar">✕</button></div>`).join(''):'<p class="muted">Todavía no hay registros.</p>'}function render(){renderSubscriptions();let month=today().slice(0,7),m=db.movements.filter(x=>x.date.slice(0,7)===month),inc=m.filter(x=>x.type==='ingreso').reduce((a,x)=>a+x.amount,0),exp=m.filter(x=>x.type==='gasto').reduce((a,x)=>a+x.amount,0);$('#income').textContent=money(inc);$('#expense').textContent=money(exp);$('#balance').textContent=money(inc-exp);$('#homePending').textContent=$('#subscriptionPending').textContent;$('#homeMovements').innerHTML=db.movements.length?[...db.movements].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,4).map(x=>`<div class="home-row"><div><b>${safe(x.name)}</b><small>${x.type==='ingreso'?'Ingreso':'Gasto'} · ${safe(x.date)}</small></div><span class="home-amount ${x.type==='ingreso'?'green':'red'}">${x.type==='ingreso'?'+':'−'} ${money(x.amount)}</span></div>`).join(''):'<p class="muted">Todavía no hay movimientos.</p>';$('#summary').textContent=`Ingresos ${money(inc)} · Gastos ${money(exp)}`;list('#movementsList',[...db.movements].sort((a,b)=>b.date.localeCompare(a.date)),x=>`<b>${x.amount<0?'↘ Nota de crédito · ':''}${safe(x.name)}</b><small>${safe(x.date)} · ${x.type==='ingreso'?'Ingreso':'Gasto'}</small><div class="amount ${x.type==='ingreso'?'green':'red'}">${x.type==='ingreso'?'+':'−'} ${money(x.amount)}</div>`,'movements');renderNaranja();list('#debtsList',[...db.debts].reverse(),x=>`<b>${safe(x.name)}</b><small>${x.type==='me_deben'?'Me deben':'Yo debo'}</small><div class="amount">${money(x.amount)}</div>`,'debts')}
+for(const [id,key] of [['#movementForm','movements'],['#debtForm','debts']])$(id).addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,o=Object.fromEntries(new FormData(f));o.amount=Number(o.amount);if(!Number.isFinite(o.amount)||o.amount<=0)return alert('Ingresá un importe válido');if(key==='naranja')o.installments=Number(o.installments);o.id=crypto.randomUUID();db[key].push(o);save();f.reset();f.querySelector('input[type=date]')&&(f.querySelector('input[type=date]').value=today());alert('Registro guardado')});document.addEventListener('click',e=>{const b=e.target.closest('[data-kind]');if(!b)return;if(confirm('¿Eliminar este registro?')){db[b.dataset.kind]=db[b.dataset.kind].filter(x=>x.id!==b.dataset.id);if(b.dataset.kind==='naranja')db.naranjaPayments=(db.naranjaPayments||[]).filter(x=>!x.id.startsWith(b.dataset.id+':'));save()}});document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('main section[id]').forEach(s=>s.classList.add('hidden'));$('#'+b.dataset.tab).classList.remove('hidden');$('#sectionNav').classList.toggle('hidden',b.dataset.tab==='inicio');$('#sectionTitle').textContent=({movimientos:'Movimientos',naranja:'Naranja X',deudas:'Deudas',suscripciones:'Suscripciones',ajustes:'Ajustes'})[b.dataset.tab]||'';window.scrollTo(0,0);if(b.dataset.mode)document.querySelector('#movementForm select[name=type]').value=b.dataset.mode});$('#exportBtn').onclick=()=>{const a=document.createElement('a'),blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});a.href=URL.createObjectURL(blob);a.download='mis_finanzas_respaldo_'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)};$('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!['movements','naranja','debts'].every(k=>Array.isArray(d[k])))throw Error('Formato inválido');if(confirm('¿Reemplazar todos los datos por los del archivo?')){db=d;for(const k of ['movements','naranja','debts','subscriptions','subscriptionPayments','naranjaPayments'])if(!Array.isArray(db[k]))db[k]=[];save()}}catch(err){alert('No se pudo importar: '+err.message)}e.target.value=''};
+function monthKey(){return today().slice(0,7)}
+function actualDate(day){const [y,m]=monthKey().split('-').map(Number);const last=new Date(y,m,0).getDate();return `${String(y)}-${String(m).padStart(2,'0')}-${String(Math.min(day,last)).padStart(2,'0')}`}
+function renderSubscriptions(){let total=0,pending=0;$('#subscriptionList').innerHTML=db.subscriptions.length?db.subscriptions.map(x=>{const paid=db.subscriptionPayments.some(t=>t.subscriptionId===x.id&&t.month===monthKey());const share=x.amount/2;total+=share;if(!paid)pending+=share;return `<div class="item"><div><b><span class="service-icon">${safe(x.name).toLowerCase().includes("netflix")?"N":safe(x.name).toLowerCase().includes("amazon")?"▶":safe(x.name).toLowerCase().includes("sparkle")?"✦":"▣"}</span>${safe(x.name)}</b><small>${safe(x.person||"Persona no indicada")} · Compartido a medias</small><small>Servicio: día ${x.dueDay} (${actualDate(x.dueDay)}) · Cobrar: día ${x.collectDay} (${actualDate(x.collectDay)})</small><div class="amount">Total ${money(x.amount)} · Te debe ${money(share)}</div><small>${paid?'✓ Pagado este mes':'Pendiente de pago'}</small></div><div style="display:flex;flex-direction:column;gap:5px"><button data-pay="${x.id}">${paid?'Deshacer pago':'Pagado'}</button><button class="danger" data-kind="subscriptions" data-id="${x.id}">Eliminar</button></div></div>`}).join(''):'<p class="muted">Agregá Netflix, Amazon y Sparkle TV con sus importes y fechas.</p>';$('#subscriptionTotal').textContent=money(total);$('#subscriptionPending').textContent=money(pending)}
+$('#serviceSelect').addEventListener('change',()=>{const other=$('#serviceSelect').value==='Otro';$('#customServiceBox').classList.toggle('hidden',!other);$('#customServiceInput').required=other;if(!other)$('#customServiceInput').value=''});$('#subscriptionForm').addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,o=Object.fromEntries(new FormData(f));o.amount=Number(o.amount);o.percent=50;o.dueDay=Number(o.dueDay);o.collectDay=Number(o.collectDay);if(o.name==='Otro'){if(!o.customService.trim())return alert('Ingresá el nombre del servicio');o.name=o.customService.trim()}delete o.customService;if(!(o.amount>0&&o.dueDay>=1&&o.dueDay<=31&&o.collectDay>=1&&o.collectDay<=31))return alert('Revisá el importe y los días');o.id=crypto.randomUUID();db.subscriptions.push(o);save();f.reset();$('#customServiceBox').classList.add('hidden');$('#customServiceInput').required=false});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-pay]');if(!b)return;const id=b.dataset.pay,month=monthKey();const i=db.subscriptionPayments.findIndex(t=>t.subscriptionId===id&&t.month===month);if(i>=0)db.subscriptionPayments.splice(i,1);else db.subscriptionPayments.push({subscriptionId:id,month,date:today()});save()});
+
+// Naranja X: monthly installments and payment history. Existing records remain compatible.
+function addMonths(month,offset){const [y,m]=month.split('-').map(Number);const d=new Date(y,m-1+offset,1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`}
+function nxMonthFor(x){return /^\d{4}-\d{2}$/.test(x.firstMonth||'')?x.firstMonth:addMonths((x.date||today()).slice(0,7),0)}
+function nxInstallmentAmount(x,index){const count=Math.max(1,Number(x.installments)||1),cents=Math.round(Number(x.amount)*100),base=Math.floor(cents/count);return (base+(index===count-1?cents-base*count:0))/100}
+function nxEntries(month){const items=[];db.naranja.forEach(x=>{const count=Math.max(1,Number(x.installments)||1);for(let i=0;i<count;i++){if(addMonths(nxMonthFor(x),i)===month){const amount=nxInstallmentAmount(x,i);items.push({x,index:i,amount,id:`${x.id}:${i}`,paid:!!(db.naranjaPayments||[]).find(p=>p.id===`${x.id}:${i}`)})}}});return items.sort((a,b)=>a.x.name.localeCompare(b.x.name,'es'))}
+function nxShares(entry){const {owner}=entry.x;return {my:entry.amount*(owner==='yo'?1:owner==='ambos'?.5:0),her:entry.amount*(owner==='ella'?1:owner==='ambos'?.5:0)}}
+function nxRenderFuture(){
+ const month=$('#nxMonth').value||today().slice(0,7);
+ const statementMonths=Object.keys(db.naranjaResumes||{}).sort().reverse();
+ const latest=statementMonths.find(k=>(db.naranjaResumes[k]?.future||[]).length);
+ const official=latest?db.naranjaResumes[latest].future:[];
+ $('#nxFutureOfficial').innerHTML=official.length?`<small class="muted">Último resumen con proyección: ${safe(latest)}</small>`+official.map(x=>`<div class="nx-future-row"><span>${safe(x.month.slice(5,7)+'/'+x.month.slice(0,4))}${x.grouped?' y posteriores (agrupado)':''}</span><strong>${money(x.amount)}</strong></div>`).join(''):'<p class="muted">Todavía no se importaron importes oficiales de cuotas futuras. Importá un PDF que incluya la sección «Cuotas futuras».</p>';
+ const list=[];
+ for(const x of db.naranja){if(x.category==='nota_credito'||Number(x.amount)<0)continue;const count=Math.max(1,Number(x.installments)||1),first=nxMonthFor(x);let future=[];
+  for(let i=0;i<count;i++){const due=addMonths(first,i);if(due>month)future.push({due,amount:nxInstallmentAmount(x,i),number:i+1+(Number(x.pdfInstallment)||1)-1})}
+  if(future.length)list.push({x,future});
+ }
+ const byMonth=new Map();
+ for(const {x,future} of list)for(const f of future){const row=byMonth.get(f.due)||{total:0,my:0,her:0,count:0};row.total+=f.amount;const shares=nxShares({x,amount:f.amount});row.my+=shares.my;row.her+=shares.her;row.count++;byMonth.set(f.due,row)}
+ const summary=[...byMonth.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([due,r])=>`<div class="nx-month-card"><div><b>${safe(due)}</b><small>${r.count} cuota(s) estimadas</small></div><strong>${money(r.total)}</strong><div class="nx-month-split"><span>Aaron: ${money(r.my)}</span><span>Daniela: ${money(r.her)}</span></div></div>`).join('');
+ const rows=list.map(({x,future})=>{const remaining=future.length,amount=future.reduce((a,v)=>a+v.amount,0),last=future[future.length-1],first=future[0];return `<tr><td><b>${safe(x.name)}</b><small>${x.owner==='yo'?'Compra de Aaron':x.owner==='ella'?'Compra de Daniela':'Compartida 50/50'}</small></td><td>${first.number}/${x.pdfTotalInstallments||x.installments}</td><td>${remaining}</td><td>${money(first.amount)}</td><td><b>${money(amount)}</b></td><td>${safe(last.due)}</td></tr>`}).join('');
+ $('#nxFutureDetails').innerHTML=list.length?`<h3 class="nx-subheading">Próximos meses · estimación</h3><div class="nx-month-grid">${summary}</div><details class="nx-detail-fold"><summary>Ver detalle de las ${list.length} compras con cuotas pendientes</summary><div class="nx-table-scroll"><table class="nx-clean-table"><thead><tr><th>Compra</th><th>Próxima cuota</th><th>Restan</th><th>Valor cuota</th><th>Total pendiente</th><th>Hasta</th></tr></thead><tbody>${rows}</tbody></table></div></details>`:'<p class="muted">No hay cuotas futuras registradas después del mes seleccionado.</p>';
+}
+function nxRenderStatements(){
+ const months=new Set(Object.keys(db.naranjaResumes||{}));
+ (db.naranja||[]).forEach(x=>{if(x.pdfStatementMonth)months.add(x.pdfStatementMonth);else if(x.pdfFingerprint){const m=x.pdfFingerprint.split('|')[0];if(/^\d{4}-\d{2}$/.test(m))months.add(m)}});
+ const list=[...months].sort().reverse();
+ $('#nxStatementsList').innerHTML=list.length?list.map(m=>{
+ const n=db.naranja.filter(x=>x.pdfStatementMonth===m||(!x.pdfStatementMonth&&x.pdfFingerprint?.startsWith(m+'|'))).length;
+ const amount=db.naranjaResumes?.[m]?.total;
+ return `<div class="nx-saved-row"><div><b>${safe(m)}</b><small>${n} consumo(s) vinculados al PDF${amount?' · Total oficial '+money(amount):''}</small></div><button type="button" class="danger" data-nxdelete-statement="${safe(m)}">Eliminar resumen</button></div>`
+ }).join(''):'<p class="muted">Todavía no hay resúmenes importados.</p>';
+}
+document.addEventListener('click',e=>{
+ const btn=e.target.closest('[data-nxdelete-statement]');if(!btn)return;
+ const month=btn.dataset.nxdeleteStatement;
+ if(!/^\d{4}-\d{2}$/.test(month))return;
+ if(!confirm(`¿Eliminar el resumen PDF de ${month}? Se borrarán sus consumos importados y sus pagos registrados. Las compras manuales se conservarán, incluso si estaban conciliadas.`))return;
+ const removed=new Set();
+ db.naranja=db.naranja.filter(x=>{
+  const associated=x.pdfStatementMonth===month||(!x.pdfStatementMonth&&x.pdfFingerprint?.startsWith(month+'|'));
+  if(!associated)return true;
+  if(x.source==='Manual + conciliado PDF'){
+   delete x.pdfFingerprint;delete x.pdfStatementMonth;x.source='Manual';return true;
+  }
+  removed.add(x.id);return false;
+ });
+ db.naranjaPayments=(db.naranjaPayments||[]).filter(p=>![...removed].some(id=>p.id.startsWith(id+':')));
+ if(db.naranjaResumes)delete db.naranjaResumes[month];
+ save();
+});
+function renderNaranja(){nxRenderStatements();const month=$('#nxMonth').value||today().slice(0,7);const entries=nxEntries(month);let total=0,my=0,her=0,pending=0;entries.forEach(e=>{total+=e.amount;const shares=nxShares(e);my+=shares.my;her+=shares.her;if(!e.paid)pending+=e.amount});$('#nxTotal').textContent=money(total);const official=db.naranjaResumes?.[month]?.total;$('#nxOfficialDisplay').textContent=official?money(official):(entries.length?money(total):'Sin resumen cargado');$('#nxOfficialHint').textContent=official?'Importe oficial del PDF':(entries.length?'Total calculado con las compras registradas':'Seleccioná un mes o cargá un resumen PDF');const difference=official-total;const reconciled=!!official&&Math.abs(difference)<0.011;$('#nxOverviewCheck').textContent=official?(reconciled?'✓ Resumen verificado: los importes coinciden':`Pendiente de revisar · Diferencia ${money(difference)}`):(entries.length?'Importes calculados · Falta el resumen oficial':'Todavía no hay movimientos para este mes');$('#nxOverviewCheck').className='nx-overview-check '+(reconciled?'is-verified':'');$('#nxReconcile').classList.toggle('hidden',!official);if(official)$('#nxReconcile').textContent=`Total oficial ${money(official)} · Cargado ${money(total)} · Diferencia ${money(official-total)}. Los consumos importados pueden no cubrir el resumen completo; verificá créditos, cargos y saldo anterior.`;$('#myShare').textContent=money(my);$('#herShare').textContent=money(her);$('#nxPending').textContent=money(pending);$('#nxCount').textContent=`${entries.length} cuota(s) · ${entries.filter(e=>e.paid).length} pagada(s)`;$('#nxInstallments').innerHTML=entries.length?entries.map(e=>{const parts=nxShares(e);return `<div class="nx-entry"><div class="nx-entry-info"><b>${safe(e.x.name)}</b><small>${e.amount<0?'Nota de crédito (descuento)':safe(e.x.category||'compra')} · Cuota ${e.index+(Number(e.x.pdfInstallment)||1)}/${e.x.pdfTotalInstallments||e.x.installments} · ${e.x.owner==='ambos'?'Compartida 50/50':e.x.owner==='yo'?'Aaron':'Daniela'}</small><small>Aaron ${money(parts.my)} · Daniela ${money(parts.her)}</small></div><div class="nx-entry-right"><strong>${money(e.amount)}</strong><button type="button" class="nx-pay ${e.paid?'is-paid':''}" data-nxpay="${safe(e.id)}">${e.paid?'Pagada ✓':'Marcar pagada'}</button></div></div>`}).join(''):'<p class="muted">No hay cuotas programadas para este mes.</p>';$('#nxPayAll').disabled=!entries.some(e=>!e.paid);$('#naranjaList').innerHTML=db.naranja.length?[...db.naranja].reverse().map(x=>`<div class="nx-entry"><div class="nx-entry-info"><b>${x.amount<0?'↘ Nota de crédito · ':''}${safe(x.name)}</b><small>${safe(x.date)} · ${safe(x.category||'compra')} · ${x.installments} cuota(s) · Desde ${safe(nxMonthFor(x))}</small><small>${x.owner==='ambos'?'Compartida 50/50':x.owner==='yo'?'Aaron':'Daniela'}</small></div><div class="nx-entry-right"><strong>${money(x.amount)}</strong><button type="button" class="danger" data-kind="naranja" data-id="${safe(x.id)}">Eliminar</button></div></div>`).join(''):'<p class="muted">Todavía no hay compras registradas.</p>'}
+$('#nxMonth').value=today().slice(0,7);
+$('#nxMonth').addEventListener('change',renderNaranja);
+$('#nxCurrent').addEventListener('click',()=>{$('#nxMonth').value=today().slice(0,7);renderNaranja()});
+const nxForm=$('#naranjaForm');nxForm.querySelector('[name="firstMonth"]').value=today().slice(0,7);
+nxForm.querySelector('[name="date"]').addEventListener('change',e=>{nxForm.querySelector('[name="firstMonth"]').value=e.target.value.slice(0,7)});
+nxForm.addEventListener('submit',e=>{e.preventDefault();const f=e.currentTarget,o=Object.fromEntries(new FormData(f));o.amount=Number(o.amount);o.installments=Number(o.installments);if(!Number.isFinite(o.amount)||o.amount<=0||!Number.isInteger(o.installments)||o.installments<1||o.installments>60||!/^\d{4}-\d{2}$/.test(o.firstMonth))return alert('Revisá importe, cuotas y primer mes.');if(o.category==='nota_credito')o.amount=-Math.abs(o.amount);if(['iva','mantenimiento','nota_credito'].includes(o.category)||/sellos|sms/i.test(o.name))o.owner='ambos';o.id=crypto.randomUUID();db.naranja.push(o);save();f.reset();f.querySelector('[name="date"]').value=today();f.querySelector('[name="firstMonth"]').value=today().slice(0,7);$('#nxMonth').value=o.firstMonth;renderNaranja()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-nxpay]');if(!b)return;const id=b.dataset.nxpay;db.naranjaPayments??=[];const i=db.naranjaPayments.findIndex(p=>p.id===id);if(i>=0)db.naranjaPayments.splice(i,1);else db.naranjaPayments.push({id,date:today()});save()});
+$('#nxPayAll').addEventListener('click',()=>{const unpaid=nxEntries($('#nxMonth').value).filter(x=>!x.paid);if(!unpaid.length)return;if(!confirm(`¿Marcar ${unpaid.length} cuota(s) como pagadas?`))return;db.naranjaPayments??=[];unpaid.forEach(e=>db.naranjaPayments.push({id:e.id,date:today()}));save()});
+
+
+// Importación de resumen Naranja X. PDF.js se carga cuando se selecciona un archivo.
+let nxPdfParsed=[];let nxPdfFuture=[];
+const nxMoneyParse=v=>Number(String(v).replace(/\./g,'').replace(',','.'));
+function nxPdfMoney(v){return Number.isFinite(v)?v.toFixed(2):''}
+async function nxLoadPdfJs(){
+ if(window.pdfjsLib)return window.pdfjsLib;
+ if(!window.__nxPdfLoader)window.__nxPdfLoader=new Promise((resolve,reject)=>{
+  const script=document.createElement('script');script.src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  script.onload=()=>{if(!window.pdfjsLib)return reject(Error('No se pudo iniciar el lector PDF.'));window.pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';resolve(window.pdfjsLib)};
+  script.onerror=()=>reject(Error('No se pudo descargar el lector PDF. Conectate a Internet y volvé a intentar.'));
+  document.head.appendChild(script);
+ }).catch(err=>{window.__nxPdfLoader=null;throw err});
+ return window.__nxPdfLoader;
+}
+function nxPdfLines(items){
+ const groups=[];
+ items.filter(x=>x.str&&x.str.trim()).forEach(x=>{
+  const y=Math.round(x.transform[5]*2)/2;
+  let g=groups.find(g=>Math.abs(g.y-y)<2);
+  if(!g){g={y,parts:[]};groups.push(g)}
+  g.parts.push({x:x.transform[4],str:x.str.trim()});
+ });
+ return groups.sort((a,b)=>b.y-a.y).map(g=>g.parts.sort((a,b)=>a.x-b.x).map(p=>p.str).join(' ').replace(/\s+/g,' ').trim());
+}
+function nxParseStatement(lines){
+ const result=[];let inDetail=false,summaryTotal=null,closingMonth='';
+ lines=lines.map((line,i)=>{if(/^\d{2}\/\d{2}\/\d{2}\s+NOTA DE CREDITO SOLICITADA POR COMERCIO/i.test(line)&&i+1<lines.length){const date=line.slice(0,8);lines[i+1]=date+' '+lines[i+1];return ''}return line}).filter(Boolean);
+ const all=lines.join('\n');
+ const totalMatch=all.match(/(?:Tu total a pagar es|TOTAL\s*\n)\s*\$?\s*([\d.]+,\d{2})/i);
+ if(totalMatch)summaryTotal=nxMoneyParse(totalMatch[1]);
+ const closing=all.match(/(?:resumen actual cerr[oó] el|RESUMEN N[º°]\s*\d+ EMITIDO EL)\s*(\d{2})\/(\d{2})(?:\/(\d{2,4}))?/i);
+ if(closing){let year=closing[3]||String(new Date().getFullYear());if(year.length===2)year='20'+year;let mo=Number(closing[2])+1;let yy=Number(year);if(mo>12){mo=1;yy++}closingMonth=`${yy}-${String(mo).padStart(2,'0')}`}
+ for(let i=0;i<lines.length;i++){
+  let line=lines[i];
+  if(/Detalle de\s+consumos|Consumos tarjeta de cr[eé]dito/i.test(line))inDetail=true;
+  if(/Otros\s+cargos|Fechas importantes|Para que tengas en cuenta/i.test(line))inDetail=false;
+  if(!inDetail)continue;
+  // Row: date, card, coupon, merchant, optional installment and amount.
+  const m=line.match(/^(\d{2}\/\d{2}\/\d{2})\s+(?:(Naranja X|NX Visa|NX Mastercard)\s+)?(?:(\d{3,7})\s+)?(.+?)\s+(?:(\d{2})(?:\/(\d{2}))?\s+)?(-?[\d.]+,\d{2})\s*$/i);
+  if(m){
+   const name=m[4].trim();
+   if(/^(NOTA DE CREDITO SOLICITADA POR COMERCIO|FECHA|TARJETA)/i.test(name))continue;
+   const amount=nxMoneyParse(m[7]);if(!Number.isFinite(amount))continue;
+   const installment=Number(m[5]||1),count=Number(m[6]||1);
+   const category=amount<0?'nota_credito':/MANTENIMIENTO|RENOVACION|AVISOS DE COMPRA/i.test(name)?'mantenimiento':/IVA/i.test(name)?'iva':/INTER[EÉ]S/i.test(name)?'intereses':'compra';
+   result.push({date:`20${m[1].slice(6)}-${m[1].slice(3,5)}-${m[1].slice(0,2)}`,card:m[2]||'',coupon:m[3]||'',name,amount,installment,count,category,owner:(category==='compra'?'':'ambos'),selected:true});
+  }
+ }
+ // General charges are outside transaction rows; exclude those already captured.
+ const extraPatterns=[
+  {regex:/IVA Operaciones Identificadas con \*/i,name:'IVA operaciones identificadas',category:'iva'},
+  {regex:/Impuesto de Sellos/i,name:'Impuesto de sellos',category:'otro'}
+ ];
+ for(const p of extraPatterns){
+  const idx=lines.findIndex(x=>p.regex.test(x));if(idx<0)continue;
+  let combined=lines.slice(idx,idx+3).join(' ');
+  let amt=combined.match(/(?:\)\s*|Sellos\s+)([\d.]+,\d{2})/i);
+  if(!amt)amt=lines[idx].match(/([\d.]+,\d{2})\s*$/);
+  if(!amt){const following=lines[idx+1]||'';amt=following.match(/([\d.]+,\d{2})\s*$/)}
+  if(amt&&Number.isFinite(nxMoneyParse(amt[1])))result.push({date:today(),card:'',coupon:'',name:p.name,amount:nxMoneyParse(amt[1]),installment:1,count:1,category:p.category,owner:'ambos',selected:true});
+ }
+ const future=[];
+ // Naranja X imprime la tabla de cuotas futuras en la tercera página. Extraemos únicamente esa sección.
+ const start=lines.findIndex(x=>/Cuotas futuras/i.test(x));
+ if(start>=0){
+  const endIndex=lines.findIndex((x,i)=>i>start && /L[ií]mites|Pago del resumen anterior|Informaci[oó]n legal|Para que lleves el control/i.test(x));
+  const stop=endIndex>start?endIndex:Math.min(lines.length,start+28);
+  const chunk=lines.slice(start,stop).join(' ');
+  const names={enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,setiembre:9,octubre:10,noviembre:11,diciembre:12};
+  const re=/(Agrupados desde\s+)?(Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Setiembre|Octubre|Noviembre|Diciembre)\s*\/\s*(\d{2,4})(?:\s+y meses\s+posteriores)?\s*\$?\s*([\d.]+,\d{2})/gi;
+  let m;while((m=re.exec(chunk))!==null){let year=Number(m[3]);if(year<100)year+=2000;const month=`${year}-${String(names[m[2].toLowerCase()]).padStart(2,'0')}`;
+   const grouped=!!m[1]||/y meses\s+posteriores/i.test(m[0]);const amount=nxMoneyParse(m[4]);
+   if(Number.isFinite(amount)&&!future.some(x=>x.month===month&&x.grouped===grouped))future.push({month,amount,grouped});
+  }
+ }
+ return {items:result,total:summaryTotal,month:closingMonth,future};
+}
+function nxPdfFingerprint(x,month){return [month,x.date,x.card,x.coupon,x.name,x.installment,x.count,Math.round(x.amount*100)].join('|').toLowerCase()}
+function nxPdfMatches(x,month){
+ if(x.amount<0)return [];
+ return db.naranja.filter(t=>!t.pdfFingerprint && t.category===x.category && Math.abs(nxInstallmentAmount(t,0)-x.amount)<0.02 && (t.firstMonth||t.date?.slice(0,7))<=month).slice(0,12);
+}
+function nxOwnerLocked(x){return x.amount<0||['iva','mantenimiento'].includes(x.category)||/sellos|sms/i.test(x.name)}
+let nxBulkOwner='ambos';
+function nxUpdateSelection(){const eligible=nxPdfParsed.filter(x=>!nxOwnerLocked(x)),selected=eligible.filter(x=>x.selected);$('#nxSelectedCount').textContent=selected.length+' de '+eligible.length+' compras seleccionadas';const all=$('#nxSelectAll');all.checked=eligible.length>0&&selected.length===eligible.length;all.indeterminate=selected.length>0&&selected.length<eligible.length;$('#nxBulkApply').disabled=!selected.length}
+function nxPdfRender(){
+ const month=$('#nxPdfMonth').value||today().slice(0,7);
+ $('#nxPdfCount').textContent=nxPdfParsed.length+' conceptos detectados';
+ $('#nxPdfRows').innerHTML=nxPdfParsed.map((x,i)=>{const locked=nxOwnerLocked(x);if(locked)x.owner='ambos';return `<div class="nx-pdf-item ${x.amount<0?'nx-credit-row':''}"><div class="nx-item-check"><input type="checkbox" aria-label="Incluir ${safe(x.name)}" data-pdf-check="${i}" ${x.selected?'checked':''}></div><div class="nx-item-detail"><b>${safe(x.name)}</b><small>${x.amount<0?'Nota de crédito · ':''}${safe(x.date)} · ${x.installment}/${x.count}${x.card?' · '+safe(x.card):''}</small></div><div class="nx-item-owners" role="group" aria-label="Asignar ${safe(x.name)}">${[['yo','Aaron'],['ella','Daniela'],['ambos','50/50']].map(([val,label])=>`<button type="button" class="nx-owner-btn owner-${val} ${x.owner===val?'active':''}" data-pdf-owner="${i}" data-owner-value="${val}" ${locked?'disabled':''} aria-pressed="${x.owner===val}">${label}</button>`).join('')}</div><div class="nx-item-match"><select aria-label="Verificar ${safe(x.name)}" data-pdf-match="${i}"><option value="">Nuevo</option>${nxPdfMatches(x,month).map(t=>`<option value="${safe(t.id)}" ${x.matchId===t.id?'selected':''}>Ya cargado: ${safe(t.name)} (${money(nxInstallmentAmount(t,0))})</option>`).join('')}</select></div><div class="nx-item-amount"><label class="nx-amount-label" for="nx-amount-${i}">Importe</label><input id="nx-amount-${i}" type="number" step=".01" data-pdf-amount="${i}" value="${nxPdfMoney(x.amount)}" aria-label="Importe de ${safe(x.name)}"></div>${locked?'<div class="nx-locked-note">50/50 obligatorio</div>':''}</div>`}).join('');
+ $('#nxPdfPreview').classList.toggle('hidden',!nxPdfParsed.length);nxUpdateSelection();
+}
+$('#nxSelectAll').addEventListener('change',e=>{nxPdfParsed.forEach(x=>{if(!nxOwnerLocked(x))x.selected=e.target.checked});nxPdfRender()});
+document.querySelectorAll('[data-bulk-owner]').forEach(b=>b.addEventListener('click',()=>{nxBulkOwner=b.dataset.bulkOwner;document.querySelectorAll('[data-bulk-owner]').forEach(el=>el.classList.toggle('active',el===b))}));
+$('#nxBulkApply').addEventListener('click',()=>{nxPdfParsed.forEach(x=>{if(x.selected&&!nxOwnerLocked(x))x.owner=nxBulkOwner});nxPdfRender()});
+$('#nxPdfRows').addEventListener('click',e=>{const b=e.target.closest('[data-pdf-owner]');if(!b)return;const x=nxPdfParsed[Number(b.dataset.pdfOwner)];if(!x||nxOwnerLocked(x))return;x.owner=b.dataset.ownerValue;nxPdfRender()});
+$('#nxPdfFile').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ $('#nxPdfStatus').textContent='Leyendo PDF…';$('#nxPdfPreview').classList.add('hidden');nxPdfParsed=[];
+ try{
+  const pdfjs=await nxLoadPdfJs(),pdf=await pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+  let lines=[];for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const content=await page.getTextContent();lines.push(...nxPdfLines(content.items))}
+  const parsed=nxParseStatement(lines);nxPdfParsed=parsed.items;nxPdfFuture=parsed.future||[];
+  $('#nxPdfMonth').value=parsed.month||$('#nxMonth').value||today().slice(0,7);
+  $('#nxPdfTotal').value=parsed.total??'';
+  $('#nxPdfFuture').classList.toggle('hidden',!nxPdfFuture.length);
+  $('#nxPdfFutureRows').innerHTML=nxPdfFuture.map(x=>`<div class="nx-future-row"><span>${safe(x.month.slice(5,7)+'/'+x.month.slice(0,4))}${x.grouped?' y posteriores (agrupado)':''}</span><strong>${money(x.amount)}</strong></div>`).join('');
+  nxPdfRender();
+  $('#nxPdfStatus').textContent=nxPdfParsed.length?`${nxPdfParsed.length} conceptos encontrados. Revisá los importes antes de guardar.`:'No se reconocieron consumos en este PDF. Es posible que sea escaneado o tenga otro formato; no se importó nada.';
+ }catch(err){$('#nxPdfStatus').textContent='Error al leer PDF: '+err.message}
+});
+$('#nxPdfRows').addEventListener('change',e=>{
+ let t=e.target,i=Number(t.dataset.pdfCheck??t.dataset.pdfOwner??t.dataset.pdfAmount??t.dataset.pdfMatch);
+ if(!Number.isInteger(i)||!nxPdfParsed[i])return;
+ if(t.hasAttribute('data-pdf-check')){nxPdfParsed[i].selected=t.checked;nxUpdateSelection()}
+ 
+ if(t.hasAttribute('data-pdf-amount')){nxPdfParsed[i].amount=Number(t.value);if(nxPdfParsed[i].amount<0){nxPdfParsed[i].owner='ambos';nxPdfParsed[i].category='nota_credito'}nxPdfRender()}
+ if(t.hasAttribute('data-pdf-match'))nxPdfParsed[i].matchId=t.value;
+});
+$('#nxPdfMonth').addEventListener('change',()=>{if(nxPdfParsed.length)nxPdfRender()});
+$('#nxPdfCancel').onclick=()=>{nxPdfParsed=[];nxPdfFuture=[];$('#nxPdfFuture').classList.add('hidden');$('#nxPdfPreview').classList.add('hidden');$('#nxPdfFile').value='';$('#nxPdfStatus').textContent='Importación cancelada.'};
+$('#nxPdfImport').onclick=()=>{
+ const month=$('#nxPdfMonth').value;
+ if(!/^\d{4}-\d{2}$/.test(month))return alert('Elegí el mes del resumen.');
+ const chosen=nxPdfParsed.filter(x=>x.selected);
+ if(!chosen.length)return alert('Seleccioná al menos un concepto.');if(chosen.some(x=>!x.owner))return alert('Asigná cada compra a Aaron, Daniela o compartida antes de guardar.');
+ if(chosen.some(x=>!Number.isFinite(x.amount)||x.amount===0))return alert('Revisá los importes.');
+ const existing=new Set(db.naranja.filter(x=>x.pdfFingerprint).map(x=>x.pdfFingerprint));
+ let added=0,duplicates=0,linked=0;
+ chosen.forEach(x=>{
+  if(x.amount<0){x.owner='ambos';x.category='nota_credito';x.matchId=''}else if(['iva','mantenimiento'].includes(x.category)||/sellos|sms/i.test(x.name))x.owner='ambos';
+  const fingerprint=nxPdfFingerprint(x,month);
+  if(x.matchId){const match=db.naranja.find(t=>t.id===x.matchId);if(match){if(!match.pdfFingerprint){match.pdfFingerprint=fingerprint;match.pdfStatementMonth=month;match.source='Manual + conciliado PDF'}match.owner=x.owner;linked++;existing.add(fingerprint);return}}
+  if(existing.has(fingerprint)){duplicates++;return}
+  const remaining=x.amount<0?1:Math.max(1,x.count-x.installment+1);
+  if(x.amount<0){x.owner='ambos';x.category='nota_credito'}
+  db.naranja.push({id:crypto.randomUUID(),name:x.name,date:x.date,amount:Math.round(x.amount*remaining*100)/100,installments:remaining,firstMonth:month,category:x.category,owner:x.owner,pdfFingerprint:fingerprint,pdfStatementMonth:month,pdfInstallment:x.installment,pdfTotalInstallments:x.count,source:'PDF Naranja X'});
+  existing.add(fingerprint);added++;
+ });
+ if(added||linked||nxPdfFuture.length){db.naranjaResumes??={};const official=Number($('#nxPdfTotal').value);const prior=db.naranjaResumes[month]||{};db.naranjaResumes[month]={...prior,...(Number.isFinite(official)&&official>0?{total:official}:{}),...(nxPdfFuture.length?{future:nxPdfFuture}: {})};$('#nxMonth').value=month;save()}
+ $('#nxPdfStatus').textContent=`Se guardaron ${added} conceptos. ${linked} vinculados con cargas manuales. ${duplicates} duplicados omitidos. Revisá el total del resumen antes de pagar.`;
+ nxPdfParsed=[];nxPdfFuture=[];$('#nxPdfFuture').classList.add('hidden');$('#nxPdfPreview').classList.add('hidden');$('#nxPdfFile').value='';
+};
+
+$('#nxGoInstallments').addEventListener('click',()=>$('#nxInstallmentsAnchor').scrollIntoView({behavior:'smooth',block:'start'}));
+render();
+</script></body></html>
